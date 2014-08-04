@@ -29,3 +29,4 @@ ipch/
 *.wwdb
 
 # Project-specific
+output/
