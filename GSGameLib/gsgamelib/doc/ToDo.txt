@@ -1,0 +1,255 @@
+=========
+  TO DO 
+=========
+
+- Redesign Viewport and binding code - must allow to switch from 3D to 2D rendering
+  for Heads-up-display (HUD).
+
+- Move ImageData::Scale() code into ImageFuncs namespace as a separate function.
+
+- Improve ImageFuncs functions by using auto_array<> and removing ImageInfo
+  dependency.
+
+- ImageFuncs::LoadTGA() doesn't load up RLE compressed TGA files properly.
+
+- Use a namespace for the lib (name?)
+	* GSLib or just GS
+
+- Figure out how to disable antialiasing in OpenGL.
+
+- MonitorData should make calls through IWindow rather than to Win32 directly.
+
+- Should make an IAudio interface and hide Audiere stuff behind a PCAudio
+  implementation class, since Audiere will work on most PCs (unix, Mac, Windows).
+  Later on, can implement PS2Audio, etc.
+
+- When app is fullscreen, if you alt+tab or minimize, the resolution of the desktop
+  doesn't change back when it should.
+	* If fullscreen, on window deactivation, switch resolution.
+
+- Add general logging mechanism.
+	* LogBlock to log scope enter/leaving
+	* Make SmartAssert use this logger
+	
+- Get rid of the bridge design for Window since it's not necessary. We can't switch
+  between WindowPort implementations at runtime. Instead, just include the correct
+  implementation file based on compile-time flags (i.e WIN32).
+  
+- Currently, IGameEngine::PreCreateWindow() allows user to specify window creation
+  params, including width/height. Well, this width/height is really the starting
+  _resolution_. In windowed mode, we may want to specify the width/height of the
+  window _after_ the resolution has been set. Figure out a way to do this cleanly.
+  
+- Add ability to disable audio at startup and load dummy audio streams.
+
+=========
+ MAY DO 
+=========
+
+- TextureMgr class -> do like AudioStream and make TextureMgr singleton class that is a factory
+  and weak pointer manager for all Texture instances.
+  
+- Win32Window::WndProc() -> should we be letting the user return a value to say
+  they "handled" the message? Maybe struct Event should contain "bool bHandled" that
+  is defaulted to false. If user wants to override default behavior, the user can
+  set this to true. This would be simpler.
+
+- In GameApp::Run(), when window is inactive, call RenderFrame() over and over.
+	* For this to work, the client must not perform any game logic in RenderFrame()
+
+- Real.h file that typedef's float (or double) to Real and contains wrappers for certain
+  calls (fabs(), cosf(), sinf(), etc.)
+
+- Sprite class ?
+	* Position vector
+	* Velocity vector
+	* Texture(s)
+	* Animation information
+
+- Resource manager?
+
+- EA's method: process input, run AI --> outputs render information to a
+	frame buffer queue, Renderer processes the queue.
+	* FrameRenderInfo: information to render one frame.
+
+- For window resize, keep aspect ratio
+
+- Create worker thread for game to run in.
+	* Use CWorkerThread class or look at boost's thread lib
+	* Singleton - multithreaded?
+
+- Invertible y-axis issues with OpenGL:
+	* Polygon winding w/ back-face culling becomes inverted;
+	* Growing a texture for non-power-of-two and loading it in reverse for GL
+	  becomes a problem when it comes to mapping the texture coords.
+  
+- Fonts: see this great website: http://www.levp.de/3d/
+
+
+=========
+  DONE
+=========
+
+- Use Bridge pattern to implement the Graphics family of classes
+  with a GraphicsImpl for OpenGL and any others.
+	* Graphics, Texture (no x,y!), etc.  --uses--> GraphicsImpl (GLGraphicsImpl, D3DGraphicsImpl)
+	* Window --uses--> WindowImpl (Win32WindowImpl, LinuxWindowImpl)
+	* GraphicsWindowBinder - binds specific implementations? (Win32 + GL)
+  
+- Use smart pointer class?
+	* Look at boost's smart pointers.
+	* shared_ptr<> (weak_ptr<>)
+  
+- Problem:
+	GraphicsRoot contains a GraphicsPort static pointer so that all subclasses share the
+	same port.
+	
+	Window does not use a static pointer to a WindowPort (uses normal pointer), so subclasses
+	would not share the one instance. This is no good. Perhaps we should do that same with
+	Window -> it contains a static WindowPort pointer that is set using a SetWindowPort static
+	method. Then all Windows share the same WindowPort.	
+	* WindowRoot class to mimic GraphicsRoot?
+	
+	For GraphicsPort, if we switch from one Port to another, we will need to properly shut one
+	down and reinitialize a lot of stuff. How do we handle this? Write high-level functions
+	for this?
+
+- Use kickass Assert stuff from CUJ:
+	* http://www.cuj.com/documents/s=8464/cujcexp0308alexandr/
+
+- Figure out how to handle Window messages
+	* http://www.cuj.com/documents/s=8262/cujweb0307sobczak/
+	* IWindowCallbackHandler?
+	* Use Listener pattern?
+	* Window should have RegisterListener() which basically forwards to WindowPort
+	* Maybe Window should implement IWindowCallbackHandler and contain lists of listeners
+	  for each type of callback message?
+
+- How to handle blending and transparency?
+	* Transparency: Alpha channel -> use image's alpha channel or create one 
+	  based on color key; if we create one, it must be specified on texture
+	  creation.
+	* Blending: look at different blending functions in OpenGL. Determine
+	  common functions?
+
+- Code an input system
+	* Replace WM_KEYDOWN/KEYUP crap with GetAsyncKeyState() (similar to DirectInput)
+
+- ImageData: Add ability to create alpha channel upon load for a given colorkey (default=black)
+
+- Non-power-of-two sized images: create alpha channel to fit next power-of-two
+  size.	
+  * IGraphicsPort::LoadTexture() -> optional param to extend alpha for power-of-two
+
+- Move the following to a separate ImageFuncs namespace:
+	* ImageData::LoadRAW() code				--> LoadRAW()
+	* ImageData::LoadTGA() code				--> LoadTGA()
+	* ImageData::AddAlphaChannel()			--> AddAlphaChannel()
+	* ReverseRows() (GLGraphicsPort.cpp)	--> ReverseRows()
+	* GrowToPowerOf2() (GLGraphicsPort.cpp)	--> GrowToPowerOf2()
+
+- Inverting Y
+	* Viewport -> can do it in the PreRenderScene()
+	* What about textures? Currently, the origin is bottom-left corner. It should
+	  be top-right corner for inverted y (tile-based games).
+
+- Wrap Audiere:
+	* AudioDevice -> The single manager for the audio, wraps AudioDevicePtr
+	* AudioStream -> One object per stream, wraps OutputStreamPtr
+
+- Remove implementation of IEventListener from GameApp, and instead, add
+  Window::IsActive(). The only reason we listened for messages was to know
+  when the window changes activation state, and we can easily query this from
+  the window instance.
+	* Win32 API ::GetActiveWindow() returns HWND
+
+- Add to IGameEngine:
+	* PreFrameLogic()
+	* RenderFrame() - replace RenderScene()
+	* PostFrameLogic()
+
+- Statistics: Texture -> keep track of texture memory being used.
+
+- Rename AudioDevice to AudioStreamMgr, making it a singleton class.
+
+- Add vector of weak pointers to AudioStream to AudioStreamMgr class for every AudioStreamPtr
+  it returns. This list can be used to implement PauseAll() and ResumeAll() functions in
+  AudioStreamMgr.
+	* If weak pointer returns NULL, we simply remove it from the list
+
+- Implement the GOF "State" pattern to manage the AudioStream state internally.
+	* Avoids ugly and dangerous switch-case code in AudioStream
+
+- Add concurrent stream playback to AudioStream
+	* Maintain internal vector<audiere::OutputStreamPtr> that we cycle through
+	  for each call to Play(). Client specifies number of concurrent playbacks,
+	  (default to 1).
+	* Strategy: Create composite of type audiere::OutputStream that maintains
+	  this list: class MultiOutputStream.
+	  
+	 OR...
+	
+	* Use audiere::SoundEffect with MULTIPLE. This has less functionality because
+	  it naturally doesn't make sense to perform certain operations on sounds that
+	  mix since the internal sound keeps changing.
+	  
+	  CODE:
+	  audiere::SoundEffectPtr pOutputStreamPtr;
+	  pOutputStreamPtr = audiere::OpenSoundEffect(rpAudioDevice, strFileName.c_str(), audiere::MULTIPLE);
+
+- Put back the window callback mechanism into GameApp so it can trap the activate
+  message to properly pause and resume the audio streams.
+
+- Color class
+	* Color(r, g, b, a=1)
+	* Do we make all functions take a Color ref instead of r, g, b? More powerful...
+
+- Need to have two types of Color classes - one for RGB, and one for RGBA.
+	* Color3 and Color4 template classes.
+
+- Hide Texture constructor and make Load() functions static (named constructors) that
+  return boost::shared_ptr<Texture>.
+
+- Replace boost::shared_ptr<> declarations with a typedef of the form ClassNameShPtr,
+  and provide boost::weak_ptr<> typedef of the form ClassNameWkPtr
+
+- Improved Color template classes - provided partial template specialized assignment
+  operators to convert between different types of Color<> instances.
+  i.e. Color3<float,0,1> cf = Color3<unsigned char,0,255>(0, 255, 255);
+
+- Added ColorFuncs.h with function ExtractRGB565().
+
+- Fix bug: On Window activation, all sounds are played, even though they shouldn't be.
+	* Problem is MultiOutputStream -> Pause/Stop has no effect because internally, it
+	  plays the current stream and moves current pointer to the next in the queue.
+	  
+- Undid the bug fix just above because it was causing the MultiOutputStream not to work
+  properly since it would often return true to isPlaying(), and keep the AudioState in 
+  "Playing", thus not letting it play the audio stream on the next channel (Play() in
+  "Playing" state is a no-op).
+
+- Win32WindowPort::Resize() should resize only the client area, not whole window.
+
+- In windowed mode, make window centered upon creation.
+
+- Add Config class to hold configuration details that can be loaded/saved to/from a file.
+	* Define a Value class for ints and strings
+
+- KeyboardMgr should be a singleton.
+
+- Huge modifications:	
+	* Renamed IGraphicsPort to IRenderer
+	* Exposed IRenderer through Renderer class
+	* Renamed IWindowPort to IWindow and moved non-virtual Window functions
+	  into IWindow
+	* Exposed IWindow through Window class
+	* Renderer and Window are singletons and factories for the specific
+	  implementations of each.
+	* Got rid of GraphicsSystem and WindowSystem, dropping protected inheritance
+	  so classes access each directly through Renderer::Instance() and
+	  Window::Instance().
+
+- Add explicit conversion constructors to Size2d<> and Point2d<> for different types.
+  This will allow for: Size2d<float> f = static_cast<Size2d<float> >( Size2d<int>(3, 4) );
+ 
+- Need a game clock singleton that is updated only once every frame by the GameApp

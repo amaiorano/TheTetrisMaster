@@ -1,0 +1,64 @@
+=========
+  TO DO 
+=========
+
+- Add line removal effects.
+
+=========
+ MAY DO 
+=========
+
+- Pause doesn't stop the elapsed time of the game.
+
+- Rewrite the TTM Theme Launcher
+	* Options: Full Screen or Windowed Mode, Window size in Windowed mode
+	* Incorporate top score list as a separate tab?
+
+- Separate tetris game logic from drawing.
+	* Put game logic in IGameEngine::Pre/PostFrameLogic()
+	* Put game drawing in IGameEngine::RenderFrame()
+
+
+=========
+  DONE
+=========
+
+- When block is being moved down by the user, disable automatic dropping of the
+  block.
+
+- Draw background as two textures for compatibility with Voodoo and older
+  graphics cards that have a max texture size limit of 256x256.
+	* Cut up 320x240 into 256x240 and 64x240, which will make textures of
+	  256x256 and 64x256 respectively.
+	  
+- Font loading and display -> TMFont class.
+
+- Display text using TMFont.
+
+- TMTheme must expose the font and font shadow colors
+
+- Adjust music/sound volume according to theme settings.
+
+- Adjust game speed appropriately.
+
+- Adjust scoring.
+
+- Add "Pause" key
+
+- Change project from Console app to Win32 app to get rid of console.
+
+- Replace all ASSERT() calls with SMART_ASSERT()
+	* Just redefined ASSERT to SMART_ASSERT in Defs.h
+
+- Pause/Resume all music and sound when player pauses/resumes game
+
+- Fixed bug: In Paused state, key presses were still being processed, so user
+  could press down and make blocks fall.
+
+- Create config file:
+	* Fullscreen/windowed mode
+	* Windowed mode window size
+	* Enable/Disable music and sound
+
+- At "New Game", display "Press Space to Start".
+

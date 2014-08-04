@@ -1,0 +1,281 @@
+*** SPRITES ***
+
+// Load hero images
+ImageData heroImgData = ImageData::LoadTGA("hero.tga");
+
+// Create textures out of them
+TextureId heroTexIds[100];
+for (...)
+	heroTexIds[i] = Renderer::Instance().LoadTexture(heroImgData.GetSubImage(...));
+
+// Create the hero sprite
+Sprite hero("Link");
+hero.Pos().Set(100, 100); // Initial position
+
+// Add tile layers
+TileLayer* pCurrLayer = hero.AddTileLayer(0);
+pCurrLayer->AddTileSet("Walk.Left", heroTexIds[0], PingPongAnimSeq::Create(4, 200)); // 4 frames, 200 ms intervals
+pCurrLayer->AddTileSet("Walk.Right", heroTexIds[0]+4, PingPongAnimSeq::Create(4, 200));
+
+hero.AddTileLayer(1);
+pCurrLayer = hero.TileLayer(1);
+pCurrLayer->AddTileSet("GoldArmor.Left", heroTexIds[0]+?); // Add only one tile (no animation)
+pCurrLayer->AddTileSet("GoldArmor.Right", ...);
+
+hero.AddTileLayer(2);
+TileSet* pTileSet = hero.TileLayer(2)->AddTileSet("PoisonCloud", heroTexIds[0]+?);
+pTileSet->SetAlphaBlending(true, 0.5f); // Set alpha for this tile set
+hero.TileLayer(2)->Disable(); // Don't render this layer yet (until poisoned)
+
+
+if ( Key.Left() )
+{
+	hero.TileLayer(0).SetTileSet("Walk.Left");
+	hero.TileLayer(1).SetTileSet("GoldArmor.Left");
+}
+
+...
+
+if ( IsPoisoned() )
+{
+	hero.TileLayer(2)->SetTileSet("PoisonCloud");
+	hero.TileLayer(2)->Enable(); // Render it
+}
+else
+{
+	hero.TileLayer(2)->Disable(); // Don't render it
+}
+
+
+
+
+
+
+// Ordered collection of one or more textures
+class TileSet
+{
+	TileSet(TextureId texId);
+	TileSet(TextureId firstTexId, AnimSeq);
+	
+	Play()	// Play/Resume animation
+	Pause()	// Pause animation
+	Stop()	// Stop animation (resets)
+
+	SetAlphaBlending()
+	SetColorTint()
+	SetRotation()
+	Render(x, y, w, h) --> virtual? Can have optimized SingleTileSet that does not do animation...
+	
+	TextureId CurrTexture();
+	
+private:
+	AnimSeq m_animSeq;
+	vector<TextureId> m_textures;			
+};
+
+class TileSetComposite : public TileSet
+{
+	AddSet(int setId, TileSet tileSet);
+	
+	TileSet& Set(int setId);	
+	TileSet& operator[](int setId) { return Set(setId); }
+	
+private:
+	map<setId, TileSet> m_tileSetMap;
+	TileSet* m_pCurrTileSet;	
+};
+
+// A TileLayer contains TileSets indexed by setId
+class TileLayer
+{
+	TileSetComposite& TileSets() { return m_tileSetComposite; }
+
+private:
+	TileSetComposite m_tileSetComposite;
+};
+
+// A Tile contains TileLayers indexed by 0-based integers
+class Tile
+{
+	Render() // Renders the entire tile
+	
+	void AddLayer(int layer)
+	TileLayer& Layer(int layer)
+	
+	array of TileLayer
+	position
+	size
+};
+
+
+
+
+
+* TileSet name format: Group.Name -> Left.Walk, Left.Run, Right.GoldArmor
+
+
+
+- Expose a TileLayer class? This can define stuff like alpha blending, color (tint?),
+  and texture(s):
+  
+  Tile& tile = map[x][y];
+  tile.AddLayer(0);
+  tile.Layer[0].SetTexture(blah);  
+  
+  tile.AddLayer(1);
+  tile.Layer[1].SetAnimation(PingPongAnim("OpenDoor", 3, 300), blah2);
+  tile.Layer[1].SetAlphaBlending(true, 0.5f);
+  tile.Layer[1].SetColor(Color3UB::Red());  
+
+
+*** ANIMATION ***
+
+* IDEA: Perhaps Tiles should always be "animatable" in a sense with a Step() function
+  that might move it to the next frame if its time slice is over. This function would
+  do nothing for non-animated tiles. Each TileLayer can also have multiple animations,
+  each one named - like "HeroLeft", "HeroRight", "HeroLaughing", etc:
+  
+Sprite hero;
+TileLayer& heroTileLayer = hero.AddTileLayer(0);
+heroTileLayer.AddAnimation("HeroLeft", heroTexId, 4, 200);
+heroTileLayer.AddAnimation("HeroRight", heroTexId+4, 4, 200);
+heroTileLayer.AddAnimation("HeroUp", heroTexId+8, 4, 200);
+heroTileLayer.AddAnimation("HeroDown", heroTexId+12, 4, 200);
+...
+if ( key.Left() )
+{
+	heroTileLayer.SetCurrAnimation("HeroLeft"); // Sets current animation
+	heroTileLayer.PlayAnim();
+}
+else if (key.LeftUp()) // released
+{
+	heroTileLayer.StopAnim();
+}
+
+heroTileLayer.Render();
+
+  
+* IDEA: Perhaps animation should be purely script based? So class Tile exposes animation
+  stuff:
+
+GameClockClient clock;
+Animation* pAnim = tile.GetAnimation("DoorOpen");
+
+pAnim->Step();
+clock.Wait(100);
+pAnim->Step();
+clock.Wait(100);
+pAnim->Step();
+EventMgr::Set(tile, "DoorOpen", true);
+
+
+* Animation Types:
+- single image (no animation)
+- perpetual animation: waterfall, trees swaying
+- animation on event: door opens, death animation
+	* sometimes we have to know when the animation completes (for scripts)
+	
+* Animation Sequences:
+- Loop at given rate:
+	0, 1, 2, 0, 1, 2, etc. with 200 ms between each frame
+- Ping-Pong at given rate:
+	0, 1, 2, 1, 0, 1, etc. with 200 ms between each frame
+- Specific sequence with specific timings in between each frame:
+	0 (10ms), 1 (20ms), 4 (200ms), 2 (200ms), 3 (10ms), loop
+
+
+* Perhaps we should _name_ the animations so they can be referenced easily:
+	Tile& tile = map[x][y];
+	tile.PlayAnim("OpenDoor"); // Starts playing the open door tile animation
+
+- There is exactly one container of Tiles per Map - class Tile which contains
+  itself multiple layers of images, and collidable property, etc.
+  We will also have class SimpleTile (and SimpleMap?) that can be used for far 
+  background (underlay?) and overlay to do nice effects (parallax scrolling), 
+  but nothing more - no collision detection, no tile animation. These have
+  to be extremely fast!
+
+
+- Texture container class
+	* class Texture
+
+class TileTetxure with virtual Render() = 0
+	* class SingleTileImage : public TileImage
+	* class AnimTileImage : public TileImage
+
+- Tile rendering algorithm (for a Map):
+
+for each tile
+{
+  render tile.background
+  render tile.ground
+  render tile.foreground
+}
+
+for each sprite
+{
+  render sprite
+}
+
+for each tile
+{
+  render tile.overlay
+}
+
+- How do we handle animated tiles?
+	* Two types of animation: perpetual (i.e. water) and 
+	  event-based (i.e. onKeyPressLeft -> moves hero left).
+	* Use global clock to determine time elapsed before switching tile
+	* Pause: should take paused time into account for timing calculations
+	
+	
+
+- TileArray class
+	* Loads up file containing many tiles
+	* Returns a const Tile& by index (through operator[])
+	
+- TileArrayMgr class	
+	* Contains many TileArrays
+	* LoadTileArray(strFileName, bPerist)
+	* FindTileArray(strFileName)
+	* UnloadTileArray(strFileName) // does NOT unload persistent tile arrays
+	
+- Map class
+	LOADING:
+	
+	* Certain TileArray files will contain "persistent" tiles (loaded once forever,
+	  referenced by many maps). These files will be listed in some global config file.
+	  For each map that's loaded, we set the 
+
+	* Partial file format (maybe use XML?):
+	
+	// Define TileArrays used by this map
+	TileArray { Idx = 0; FileName = "Items.tga"; }		// Note: Persistent
+	TileArray { Idx = 1; FileName = "Monsters.tga"; }	// Note: Persistent
+	TileArray { Idx = 2; FileName = "Overworld.tga"; }	// Note: Non-persistent	
+	
+	// Define each tile in order from index 0..n
+	Tile
+	{
+		Idx = 0; // Tile index
+		Collidable = true;
+		Layer
+		{
+			// Layer 0, draw tile 34 from TileArray[2] ("Overworld.tga")
+			Idx = 0; TileArrayIdx = 2; TileIdx = 34;
+		}
+				
+		Layer
+		{
+			// Layer 1, draw tile 3 from TileArray[0] ("Items.tga")
+			Idx = 1; TileArrayIdx = 0; TileIdx = 3;
+		}
+	}
+	
+	* The "persistent" TileArray files are the ones that will be loaded once on startup
+	  and remain loaded until the end. The list of these files will be in some other config
+	  file and loaded into TileArrayMgr at startup. When a map is loaded, the app will load
+	  the TileArray files through TileArrayMgr. Any persistent files will already have been
+	  loaded, the others will be flagged as non-persistent and its memory will be released
+	  once the map is fully loaded.	  
+

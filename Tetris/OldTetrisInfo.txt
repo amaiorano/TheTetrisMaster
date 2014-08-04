@@ -1,0 +1,14 @@
+TTM File Dimensions (Width x Height)
+
+Font = 320x50
+Background = 320x240
+Transparent Window = 100x200 
+
+
+Positions and sizes
+
+GameInfo		  ->	pos=(229, 20)  size=(70x96)
+LineWindowObject  ->	pos=(229, 178) size=(70x41)
+NextWindowObject  ->	pos=(229, 126) size=(70x42)
+ScoreWindowObject ->	pos=(8, 150) size=(82x30)
+TimeWindowObject  ->	pos=(8,190)  size=(82x30)

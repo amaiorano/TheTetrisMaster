@@ -1,0 +1,480 @@
+From: http://www.colinfahey.com/2003jan_tetris/tetris_standard_specifications.htm
+
+"STANDARD TETRIS" SPECIFICATIONS 
+
+INTRODUCTION 
+
+There are numerous variations on the Tetris concept.  Defining a "Standard
+Tetris" will give us a context for discussing a corresponding AI system
+designed to play this version of Tetris.
+
+The various aspects of "Standard Tetris" described in the following sections
+are mostly based on observations made while playing the final version of the
+pre-commercial release of the PC version of Tetris.  However, some aspects of
+the definition of "Standard Tetris" seek to eliminate some of the random
+aspects of real-time game play that exists in the original Tetris.  Basically,
+the "Standard Tetris" model seeks to make the game concept even more "platform
+independent".  For example, on the highest level of the original MS-DOS version
+of Tetris, the pieces fall so quickly that sometimes each piece seems to not
+get rendered at every altitude of its fall (i.e., rendering seems to be
+happening at a slower rate than the falling rate).  Also, one's ability to
+control the pieces using the keyboard seems somewhat diminished when the pieces
+are falling quickly (i.e., the input opportunities per incremental line falling
+seems variable).  The "Standard Tetris" model will specify the rendering and
+input behavior.
+
+
+STANDARD TETRIS BOARD 
+
+The board is a grid of cells, having 10 columns, and 20 rows, for a total of
+10 x 20 = 200 cells.
+
+
+
+FIGURE: Standard Tetris board (10 columns x 20 rows).  
+
+The horizontal axis is called "X" and points to the right.
+The vertical   axis is called "Y" and points upward.
+
+References to cells will be in terms of (X,Y) coordinates.
+
+The cell in the bottom-left corner of the board is called ( 1, 1).
+The cell in the top-right   corner of the board is called (10,20).
+
+Each cell can either be unoccupied (empty) or occupied (full).
+
+
+NOTES:
+======
+  Referring to cells by (row,column), and calling the cell in the
+  top-left corner of the board (0,0), was appealing because it
+  is a representation that is easy to implement in a computer 
+  program.
+
+  However, switching to a coordinate system with a vertical axis
+  pointing upwards, and a first cell of (1,1) instead of (0,0),
+  has many advantages:
+
+    (1) The "Y" axis can be interpreted as "height", and as
+        a piece falls its height decreases;
+
+    (2) The pile height is simply the maximum "Y" value of
+        all occupied cells;
+
+    (3) Collapsing the pile can now be regarded as copying
+        rows downward to rows with lower "Y" values;
+
+    (4) Calling the bottom-left cell (1,1) means that the
+        top-right cell will be (10,20), which makes the board
+        dimensions more apparent.
+
+    (5) The "first" column corresponds to X = 1, instead of
+        X = 0;  The "first" (bottom) row corresponds to Y = 1,
+        instead of Y = 0;  Thus, discussion about the board is
+        not confused by the difference between the ordinal
+        number (e.g., "first") and the cardinal number
+        (e.g., one) used by the algorithm;
+
+
+
+STANDARD TETRIS PIECES 
+
+There are seven (7) standard Tetris pieces, with the following letter names:
+{ O, I, S, Z, L, J, T }.  These letter names are inspired by the shapes of
+the pieces.
+
+
+
+FIGURE: The seven (7) standard Tetris pieces.
+
+The chart above has four columns that represent the cycle of the four
+configurations a piece can assume.  Let us refer to these orientations
+by the numbers 1, 2, 3, 4.
+
+The initial configuration is:
+
+
+  Orientation = 1;
+
+
+A single "Counter-Clockwise Rotation" event means that our new configuration is:
+
+
+  Orientation = 1 + (Orientation % 4);
+
+
+So, the orientations { 1, 2, 3, 4 } become { 2, 3, 4, 1 } after a single
+rotation.
+
+The "O" piece (box) has a single distinct appearance, but it can be regarded as
+rotating about its center, even if this rotation does not lead to new
+appearances.  Three pieces { L, J, T } cycle through four pure rotations (i.e.,
+no translation) leading to four unique configurations.  Three other pieces
+{ I, S, Z } have only two distinct configurations, so a succession of
+"rotations" just leads to a toggling between the two distinct configurations.
+The shapes { I, S, Z } can be regarded as going through conventional rotations,
+but with translations to exploit the 180-degree symmetry of the piece and reduce
+the number of distinct configurations.
+
+The first column of shapes in the diagram above indicates the initial
+orientation of the pieces when they spawn at the top of the board.  The marked
+origin of the piece conincides with X = 6, Y = 20 on a standard board.
+As you can see, all pieces initially have the minimum vertical profile possible,
+and start out flush with the top edge of the board.
+
+Since a piece is spawned flush with the top of the board in an orientation such
+that the piece's "major axis" is horizontal, the piece cannot initially be
+rotated.  The player can queue up rotation requests while the piece persists in
+this initial altitude, but such rotations can only be executed when the piece
+falls by at least one row.
+
+Once a piece has fallen by one row on the board, all piece configurations
+("rotations") can be executed assuming the piece is not too close to the side
+walls or to the current pile of pieces.
+
+
+STANDARD TETRIS FLOWCHART 
+
+The following flowchart defines how the Standard Tetris video game operates.
+
+
+
+FIGURE: Standard Tetris video game application flowchart.
+
+The meaning of the terms that appear in this flowchart are defined in the other
+sections of the Standard Tetris specifications.
+
+
+STANDARD TETRIS PIECE SPAWNING 
+
+
+
+
+When a new piece first appears on the board, its origin coincides with the dot
+on this diagram, and the piece will be completely contained by the shaded area
+on this diagram.
+
+When a new game is started, a full free-fall delay elapses, and on the first
+free-fall iteration a piece is spawned at the top of the board.
+
+During normal game play, when a specific free-fall iteration "lands" a piece,
+a full free-fall delay elapses and on the next free-fall iteration a piece is
+spawned at the top of the board.
+
+When a piece is spawned, the type of piece is selected using the following
+algorithm:
+
+
+Piece = 1 + (RandomInteger % 7); // 1..7
+
+
+Since there is a constant p (= 1/7) chance of selecting a specific kind of
+piece, and all pieces of the same kind are indistinguishable, the probability
+of having exactly k pieces of a specific kind after n trials follows a
+Binomial distribution:
+
+
+P(k) = (1-p)^(n-k) * (p)^(k) * ((n)! / ( (n-k)! (k)! ));
+
+  p = 0.0 <--> 1.0;    k = 0, 1, 2, ..., (n);
+
+MEAN:                [(n)*(p)]
+VARIANCE:            [(n)*(p)*(1-p)]
+STANDARD DEVIATION:  sqrt( VARIANCE )
+
+
+When we choose from among the 7 (seven) pieces at random, the probability of
+getting a specific piece is p=(1/7).  If we do this n=70 times, the probability
+of getting exactly k pieces (with a k in the range 0 to n) is given by the
+Binomial Distribution, as shown in the following image.
+
+
+
+FIGURE: Binomial Distribution for n=70, p=(1/7).
+
+Thus, one can predict the average total pieces of a single kind given a total
+number of random pieces, and one can also compute the variance and standard
+deviation (square root of variance):
+
+
+                      p = (1/7)
+  Total Random                        Standard
+   Pieces (n)     Mean    Variance   Deviation
+  ============  ========  ========   =========
+        70          10         8         3
+       700         100        85         9
+      7000        1000       857        29
+     70000       10000      8571        93
+
+
+Using a simple linear congruence pseudo-random generator, I computed the
+following distribution of pieces, starting the generator with an arbitrary
+seed value of 0 (zero):
+
+
+               n = 70    n = 700    n = 7000  n = 70000
+Piece Index  Total Dev. Total Dev. Total Dev. Total Dev.
+===========  ========== ========== ========== ==========
+    0         10    0    100   0    966 -34   9987  -13
+    1          5   -5    100   0    994  -6   9975  -25
+    2         11    1     91  -9   1007   7  10046   46
+    3         12    2    104   4   1003   3   9874 -126
+    4         10    0    105   5   1027  27  10058   58
+    5         12    2    100   0    994  -6  10004    4
+    6         10    0    100   0   1009   9  10056   56
+
+
+Clearly, the random number generator has yielded distributions of pieces such
+that the total number of any given kind of piece is mostly within a standard
+deviation, above or below the "expected value" of (n/7).
+
+When we get a random value, we interpret it as follows:
+
+
+  Value       Piece
+==========  ==========
+    1          "O"
+    2          "I"
+    3          "S"
+    4          "Z"
+    5          "L"
+    6          "J"
+    7          "T"
+
+
+Note that the pre-commercial MS-DOS version of Tetris used the random number
+function offered by the Borland Pascal compiler.  Our random number generator
+was promoted by Knuth and appeared in the text "Numerical Recipes in C", and
+has nothing in common with the original Tetris random number function, except
+for its promise of randomness.  Furthermore, by explicitly defining the random
+number generator to be used in Standard Tetris, we open up the possibility of
+playing the "same game" several times just by specifying an initial random
+number generator "seed value".
+
+
+STANDARD TETRIS CONTROLS 
+
+During game play, the following inputs are available:
+
+
+----------------------------------------------------------
+[1] LEFT   : Request to translate left  by one column;
+[2] RIGHT  : Request to translate right by one column;
+[3] ROTATE : Request to do a "counter-clockwise rotation";
+[4] DROP   : Request to instantly drop the piece;
+----------------------------------------------------------
+
+
+All inputs take effect on the rising-edge of the positive input (i.e., on
+button press, as opposed to button release).
+
+When a button press occurs, this counts as a request.  Holding a button down
+beyond a certain time may result in the "auto-repeat" feature of the keyboard
+generating new button presses -- but this feature is external to the game
+engine.
+
+The inputs specified above conform to the original Tetris game.
+
+Rotate requests can be executed if there is no overlap between the desired
+rotated configuration and set cells on the current board (excluding the
+falling piece), and if the desired rotated configuration has no set cells
+outside the board area.
+
+Translate requests can be executed if there is no overlap between the desired
+translated configuration and set cells on the current board (excluding the
+falling piece), and if the desired translated configuration has no set cells
+outside the board area.
+
+Input requests are processed with a latency that depends on the frame rate of
+the game (e.g., 75Hz), and requests take effect (if valid) instantly.
+
+A piece can be dropped without any line falling steps occurring.  A piece can
+be translated several times to the left or right, and subsequently dropped, all
+without experiencing an official line falling step.
+
+Since a newly spawned piece cannot possibly be rotated (stuck against top edge
+of the board), the player must suffer at least one piece dropping iteration if
+rotations are required.  This impact on the score is insignificant.
+
+
+STANDARD TETRIS PIECE LANDING 
+
+If a piece is simply falling, it falls by a single row during each piece
+falling iteration.
+
+There will be an iteration that moves it from a place with no contact with
+horizontal surfaces to a place that has contact with horizontal surfaces.
+Once this iterations occurs, the pieces are in resting contact.
+
+If an iteration BEGINS with a piece in resting contact with a horizontal
+surface, the piece "lands", and becomes part of the static pile.
+
+
+STANDARD TETRIS LINES COMPLETED 
+
+A completed row is a row of the pile in which all cells are occupied.  When a
+completed row is eliminated from the pile, and the rows above the eliminated
+row are shifted down by one row to eliminate the gap, this counts as a
+completed "line".  
+
+When a piece lands it becomes part of the pile.  Immediately after the piece
+lands, the pile is checked for completed rows, and all completed rows are
+eliminated.  Up to four rows can be completed simultaneously.
+
+The following table gives the upper limit on lines completed simultaneously
+by a single piece:
+
+
+  Piece   Max. Simultaneous
+           Rows Completed
+  =====   =================  
+   "O"           2       
+   "I"           4   
+   "S"           2   
+   "Z"           2   
+   "L"           3   
+   "J"           3   
+   "T"           2   
+
+
+
+
+STANDARD TETRIS LEVELS 
+
+Standard Tetris has 10 difficulty levels, numbered 0 (zero) through 9 (nine),
+with Level 0 being the "least difficult".
+
+The level index is the maximum of two values:
+
+
+  Actual_Level = max( Initial_Level, Earned_Level );
+
+
+The Initial_Level value is the level that the player selects when starting a
+new game.
+
+The pattern of level as a function of completed lines is easily observed in the
+pre-commercial MS-DOS version of Tetris:
+
+
+  {  0, 1,  2, ..., 10 }  --> Earned Level 0
+  {    11, 12, ..., 20 }  --> Earned Level 1
+  {    21, 22, ..., 30 }  --> Earned Level 2
+  {    31, 32, ..., 40 }  --> Earned Level 3
+  {    41, 42, ..., 50 }  --> Earned Level 4
+  {    51, 52, ..., 60 }  --> Earned Level 5
+  {    61, 62, ..., 70 }  --> Earned Level 6
+  {    71, 72, ..., 80 }  --> Earned Level 7
+  {    81, 82, ..., 90 }  --> Earned Level 8
+  {    91,...infinity* }  --> Earned Level 9
+
+(*I did not actually observe the infinity case.)
+
+Thus, the Earned_Level value is computed according to the following algorithm:
+
+
+  Earned_Level = ((Lines_Completed - 1) / 10);
+  if (Earned_Level < 0)  Earned_Level = 0;
+  if (Earned_Level > 9)  Earned_Level = 9;
+
+
+
+STANDARD TETRIS FALLING ITERATION DELAY 
+
+Standard Tetris has a real-time delay between successive line free-fall
+iterations that is a function of the current difficulty level.
+
+The following relationship between level index and falling iteration delay is
+based on repeated stopwatch measurements at all levels of the pre-commercial
+MS-DOS version of Tetris.
+
+
+                  Iteration_Delay [seconds]
+  Actual_Level       (rounded off)
+  ============    =========================
+       0                 0.50
+       1                 0.45
+       2                 0.40
+       3                 0.35
+       4                 0.30
+       5                 0.25
+       6                 0.20
+       7                 0.15
+       8                 0.10
+       9                 0.05
+
+
+Thus, we establish the following formula for the iteration delay value as a
+function of the actual level index:
+
+
+  Iteration_Delay = ((10.0 - Actual_Level) / 20.0) seconds
+
+
+If the board is empty, and there is no user input, a spawned piece at actual
+level 0 takes roughly 10 seconds to land, and a spawned piece at actual
+level 9 takes roughly 1 second to land.
+
+
+STANDARD TETRIS SCORE 
+
+Standard Tetris only awards points for the act of landing a piece.
+
+There are no points awarded for the act of completing a single line, or
+completing two, three, or four lines simultaneously.
+
+(NOTE: Some variants of Tetris award points for the act of completing lines,
+with an exponentially increasing bonus for an increasing number of
+simultaneously completed lines.  Thus, the strategy for maximizing score in
+such variants of Tetris involves setting up opportunities to "get a tetris",
+slang for using the "I" shape to get four simultaneous lines and getting lots
+of points.)
+
+If you have an empty board, and you let a non-"I" piece do a free-fall and
+land, or you immediately drop a non-"I" piece, you can establish the following
+point chart using the pre-commercial MS-DOS version of Tetris:
+
+
+                 Free Fall   Instant Drop 
+  Actual_Level     Points       Points
+  ============   =========   ============
+        0            6            24
+        1            9            27
+        2           12            30
+        3           15            33
+        4           18            36
+        5           21            39
+        6           24            42
+        7           27            45
+        8           30            48
+        9           33            51
+
+
+Unrotated, Non-"I" pieces fall a total of 18 rows.  This accounts for the point
+difference between the free-fall and instant-drop cases.  By experimenting
+with intermediate cases it is easy to infer the following point formula:
+
+
+  Point_Award = ((24 + (3*Actual_Level)) - Free_Fall_Iterations);
+
+
+Note that this formula has nothing to do with the distance a piece falls!
+It is strictly a function of the actual level, and a penalty for the number
+of iterations a piece is allowed to fall freely.  This punishes a user for
+needing time to think!
+
+Also note that because a piece cannot initially be rotated when it first
+spawns, a player is punished by at least one free-fall iteration if rotations
+are required to place a piece in the pile.  This probably NEVER affects human
+players, unless they somehow: recognize the piece, press translation keys
+(LEFT or RIGHT), press the CCW key one or more times, and press the DROP key,
+all within less than 0.5 seconds on level 0, or less than 0.05 seconds on
+level 9.
+
+CONTACT INFORMATION
+
+Colin P. Fahey
+Irvine, California; USA
+cpfahey@earthlink.net
+
+http://www.colinfahey.com

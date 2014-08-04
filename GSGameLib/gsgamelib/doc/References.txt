@@ -1,0 +1,7 @@
+============
+ References
+============
+
+* Amazing OpenGL site: http://users.frii.com/martz/oglfaq/
+* Fonts: http://www.levp.de/3d/
+* Smart Assert: http://www.cuj.com/documents/s=8464/cujcexp0308alexandr/
