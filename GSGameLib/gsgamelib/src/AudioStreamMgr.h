@@ -3,17 +3,16 @@
 
 #include <string>
 #include <list>
-#include <boost/smart_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
 #include "Singleton.h"
 #include "AudioStream.h"
 
-// To make life easy, we use the boost shared pointer class
+// To make life easy, we use the std shared pointer class
 // so you can pass around the AudioStream objects, and never
 // worry about destroying them - as soon as the last reference
 // is destroyed, the object is deleted automatically.
-typedef boost::shared_ptr<AudioStream> AudioStreamShPtr;
-typedef boost::weak_ptr<AudioStream> AudioStreamWkPtr;
+typedef std::shared_ptr<AudioStream> AudioStreamShPtr;
+typedef std::weak_ptr<AudioStream> AudioStreamWkPtr;
 
 // Singleton class that is an AudioStream factory and
 // manager for all streams during runtime.

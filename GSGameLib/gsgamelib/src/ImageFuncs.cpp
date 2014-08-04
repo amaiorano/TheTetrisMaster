@@ -5,14 +5,14 @@
 #include "ImageData.h"
 #include "SmartAssert.h"
 
-boost::shared_array<UBYTE> ImageFuncs::LoadTGA(const std::string& strFileName, ImageInfo& rImageInfo)
+std::shared_ptr<UBYTE> ImageFuncs::LoadTGA(const std::string& strFileName, ImageInfo& rImageInfo)
 {
 	// These defines are used to tell us about the type of TARGA file it is
 	const UBYTE TGA_RGB	= 2;	// This tells us it's a normal RGB (really BGR) file
 	const UBYTE TGA_A	= 3;	// This tells us it's a ALPHA file
 	const UBYTE TGA_RLE	= 10;	// This tells us that the targa is Run-Length Encoded (RLE)
 
-	boost::shared_array<UBYTE> pData;
+	std::shared_ptr<UBYTE> pResultData;
 
 	unsigned short iWidth = 0, iHeight = 0;	// The dimensions of the image
 	UBYTE length = 0;		// The length in bytes to the pixels
@@ -72,7 +72,8 @@ boost::shared_array<UBYTE> ImageFuncs::LoadTGA(const std::string& strFileName, I
 			// Next, we calculate the iPitch and allocate enough memory for the pixels.
 			iChannels = bpp / 8;
 			iPitch = iChannels * iWidth;
-			pData.reset( new UBYTE[iPitch * iHeight] );
+			pResultData.reset( new UBYTE[iPitch * iHeight], std::default_delete<UBYTE[]>() );
+			auto* pData = pResultData.get();
 
 			// Load in all the pixel data line by line
 			for (int y = 0; y < iHeight; y++)
@@ -87,7 +88,7 @@ boost::shared_array<UBYTE> ImageFuncs::LoadTGA(const std::string& strFileName, I
 				// files are stored as BGR instead of RGB (or use GL_BGR_EXT verses GL_RGB)
 				for (i = 0; i < iPitch; i += iChannels)
 				{
-					int temp     = pLine[i];
+					UBYTE temp   = pLine[i];
 					pLine[i]     = pLine[i + 2];
 					pLine[i + 2] = temp;
 				}
@@ -97,13 +98,14 @@ boost::shared_array<UBYTE> ImageFuncs::LoadTGA(const std::string& strFileName, I
 		else if (bpp == 16)
 		{
 			unsigned short pixels = 0;
-			int r=0, g=0, b=0;
+			UBYTE r=0, g=0, b=0;
 
 			// Since we convert 16-bit images to 24 bit, we hardcode the iChannels to 3.
 			// We then calculate the iPitch and allocate memory for the pixels.
 			iChannels = 3;
 			iPitch = iChannels * iWidth;
-			pData.reset( new UBYTE[iPitch * iHeight] );
+			pResultData.reset( new UBYTE[iPitch * iHeight], std::default_delete<UBYTE[]>() );
+			auto* pData = pResultData.get();
 
 			// Load in all the pixel data pixel by pixel
 			for (int i = 0; i < iWidth*iHeight; i++)
@@ -116,9 +118,9 @@ boost::shared_array<UBYTE> ImageFuncs::LoadTGA(const std::string& strFileName, I
 				// 0x1f = 11111 in binary, so since 5 bpp are reserved in
 				// each unsigned short for the R, G and B, we bit shift and mask
 				// to find each value.  We then bit shift up by 3 to get the full color.
-				b = (pixels & 0x1f) << 3;
-				g = ((pixels >> 5) & 0x1f) << 3;
-				r = ((pixels >> 10) & 0x1f) << 3;
+				b = static_cast<UBYTE>((pixels & 0x1f) << 3);
+				g = static_cast<UBYTE>(((pixels >> 5) & 0x1f) << 3);
+				r = static_cast<UBYTE>(((pixels >> 10) & 0x1f) << 3);
 				
 				// This essentially assigns the color to our array and swaps the
 				// B and R values at the same time.
@@ -161,8 +163,19 @@ boost::shared_array<UBYTE> ImageFuncs::LoadTGA(const std::string& strFileName, I
 
 		// Next we want to allocate the memory for the pixels and create an array,
 		// depending on the channel count, to read in for each pixel.
-		pData.reset( new UBYTE[iPitch * iHeight] );
-		unsigned char *pColors = new UBYTE [iChannels];
+		pResultData.reset( new UBYTE[iPitch * iHeight], std::default_delete<UBYTE[]>() );
+		auto* pData = pResultData.get();
+		
+		struct TgaPixel
+		{
+			UBYTE B, G, R, A;
+		};
+		TgaPixel tgaPixel;
+
+		SMART_ASSERT(iChannels >= 0 && iChannels <= 4);
+		//std::unique_ptr<UBYTE[]> pColors2(new UBYTE [iChannels]);
+		//UBYTE* pColors = pColors2.get();
+		//UBYTE pColors[sizeof(float) * 4]; // Max size
 
 		// Load in all the pixel data
 		while(i < iWidth*iHeight)
@@ -180,16 +193,16 @@ boost::shared_array<UBYTE> ImageFuncs::LoadTGA(const std::string& strFileName, I
 				while(rleID)
 				{
 					// Read in the current color
-					fread(pColors, sizeof(pColors) * iChannels, 1, pFile);
+					fread(&tgaPixel, sizeof(tgaPixel.R) * iChannels, 1, pFile);
 
 					// Store the current pixel in our image array
-					pData[colorsRead + 0] = pColors[2];
-					pData[colorsRead + 1] = pColors[1];
-					pData[colorsRead + 2] = pColors[0];
+					pData[colorsRead + 0] = tgaPixel.R;
+					pData[colorsRead + 1] = tgaPixel.G;
+					pData[colorsRead + 2] = tgaPixel.B;
 
 					// If we have a 4 channel 32-bit image, assign one more for the alpha
 					if (bpp == 32)
-						pData[colorsRead + 3] = pColors[3];
+						pData[colorsRead + 3] = tgaPixel.A;
 
 					// Increase the current pixels read, decrease the amount
 					// of pixels left, and increase the starting index for the next pixel.
@@ -205,19 +218,19 @@ boost::shared_array<UBYTE> ImageFuncs::LoadTGA(const std::string& strFileName, I
 				rleID -= 127;
 
 				// Read in the current color, which is the same for a while
-				fread(pColors, sizeof(pColors) * iChannels, 1, pFile);
+				fread(&tgaPixel, sizeof(tgaPixel.R) * iChannels, 1, pFile);
 
 				// Go and read as many pixels as are the same
 				while(rleID)
 				{
 					// Assign the current pixel to the current index in our pixel array
-					pData[colorsRead + 0] = pColors[2];
-					pData[colorsRead + 1] = pColors[1];
-					pData[colorsRead + 2] = pColors[0];
+					pData[colorsRead + 0] = tgaPixel.R;
+					pData[colorsRead + 1] = tgaPixel.G;
+					pData[colorsRead + 2] = tgaPixel.B;
 
 					// If we have a 4 channel 32-bit image, assign one more for the alpha
 					if (bpp == 32)
-						pData[colorsRead + 3] = pColors[3];
+						pData[colorsRead + 3] = tgaPixel.A;
 
 					// Increase the current pixels read, decrease the amount
 					// of pixels left, and increase the starting index for the next pixel.
@@ -237,25 +250,23 @@ boost::shared_array<UBYTE> ImageFuncs::LoadTGA(const std::string& strFileName, I
 	rImageInfo.imageSize = Size2d<int>(iWidth, iHeight);
 
 	// Unfortunately, data in TGAs are stored in reverse order, so reverse the rows
-	ReverseRows(pData.get(), rImageInfo);
+	ReverseRows(pResultData.get(), rImageInfo);
 
-	return pData;
+	return pResultData;
 }
 
-boost::shared_array<UBYTE> ImageFuncs::LoadRAW(const std::string& strFileName, int iWidth, int iHeight, int iChannels, ImageInfo& rImageInfo)
+std::shared_ptr<UBYTE> ImageFuncs::LoadRAW(const std::string& strFileName, int iWidth, int iHeight, int iChannels, ImageInfo& rImageInfo)
 {
 	FILE *pFile = NULL;
 
 	if ( (pFile = fopen(strFileName.c_str(), "rb")) == NULL )
 		throw std::invalid_argument("Failed to open file: " + strFileName);
 
-	int iDataSize = iWidth*iHeight*iChannels;
+	size_t iDataSize = iWidth*iHeight*iChannels;
 
 	// Allocate buffer large enough for the data
-	boost::shared_array<UBYTE> pData( new UBYTE [iDataSize] );
+	std::shared_ptr<UBYTE> pData( new UBYTE [iDataSize], std::default_delete<UBYTE[]>() );
     
-	int iPitch = iWidth*iChannels; // No. of bytes in one line
-
 	// The data is already stored in RGB order, so just read it in directly
 	if ( fread(pData.get(), 1, iDataSize, pFile) != iDataSize )
 		throw std::runtime_error("Failed to read from file: " + strFileName);
@@ -269,7 +280,7 @@ boost::shared_array<UBYTE> ImageFuncs::LoadRAW(const std::string& strFileName, i
 	return pData;
 }
 
-void ImageFuncs::AddAlphaChannel(boost::shared_array<UBYTE>& rpData, ImageInfo& rImageInfo, const Color3UB& color)
+void ImageFuncs::AddAlphaChannel(std::shared_ptr<UBYTE>& rpData, ImageInfo& rImageInfo, const Color4UB& color)
 {
 	const UBYTE BLACK = 0;
 	const UBYTE WHITE = 255;
@@ -280,7 +291,7 @@ void ImageFuncs::AddAlphaChannel(boost::shared_array<UBYTE>& rpData, ImageInfo& 
 
 	// Allocate a new buffer that includes the alpha channel
 	int iNewSize = (rImageInfo.GetDataSize()/3) * 4;
-	boost::shared_array<UBYTE> pNewData( new UBYTE[iNewSize] );
+	std::shared_ptr<UBYTE> pNewData( new UBYTE[iNewSize], std::default_delete<UBYTE[]>() );
 
 	// Clear the entire buffer to white (including alpha channel)
 	memset(pNewData.get(), WHITE, iNewSize);
@@ -314,7 +325,7 @@ UBYTE* ImageFuncs::AddWhiteAlphaChannel(const UBYTE* pData, ImageInfo& rImageInf
 	if ( rImageInfo.GetChannels() == 4 )
 		throw std::logic_error("Cannot add alpha channel because image already contains one");
 
-	UBYTE* pNewData = NULL;
+	UBYTE* pNewData = nullptr;
 	try
 	{
 		// Allocate a new buffer that includes the alpha channel
@@ -350,12 +361,11 @@ UBYTE* ImageFuncs::AddWhiteAlphaChannel(const UBYTE* pData, ImageInfo& rImageInf
 
 void ImageFuncs::ReverseRows(UBYTE* pData, const ImageInfo& rImageInfo)
 {
-	int iWidth = rImageInfo.imageSize.w;
 	int iHeight = rImageInfo.imageSize.h;
 	int iPitch = rImageInfo.GetPitch();
 
 	// Allocate temp buffer to hold reversed rows
-	boost::scoped_array<UBYTE> pDataReversed( new UBYTE[rImageInfo.GetDataSize()] );
+	std::unique_ptr<UBYTE[]> pDataReversed( new UBYTE[rImageInfo.GetDataSize()] );
 
 	// Loop and reverse the rows
 	UBYTE* pData2 = pData + (iPitch*iHeight) - iPitch;
@@ -381,21 +391,21 @@ UBYTE* ImageFuncs::GrowToPowerOf2(const UBYTE* pData, ImageInfo& rImageInfo)
 	int iHeightPower = (int)ceil( log((float)iHeight) / log(2.0f) );
 
 	// Calculate the best fit dimensions
-	int iBuffWidth =  (int)pow(2, (float)iWidthPower);
-	int iBuffHeight = (int)pow(2, (float)iHeightPower);
+	int iBuffWidth =  (int)pow(2.0f, iWidthPower);
+	int iBuffHeight = (int)pow(2.0f, iHeightPower);
 
 	// Do we need to grow the data?
 	if ( iBuffWidth == iWidth && iBuffHeight == iHeight )
-		return NULL;
+		return nullptr;
 
 	SMART_ASSERT(iBuffWidth >= iWidth && iBuffHeight >= iBuffHeight)
 		.msg("Internal error: allocated buffer is incorrect size");
 
-	UBYTE* pNewData = NULL;	
+	UBYTE* pNewData = nullptr;	
 	try
 	{
 		// _May_ point to new data if input data does not contain an alpha channel
-		boost::scoped_array<UBYTE> pOldDataWithNewAlpha;
+		std::unique_ptr<UBYTE[]> pOldDataWithNewAlpha;
 
 		// If image only contains 3 channels, then we must add an all
 		// white alpha channel before growing it so that blending will

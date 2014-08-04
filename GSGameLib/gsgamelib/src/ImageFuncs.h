@@ -2,7 +2,7 @@
 #define _IMAGE_FUNCS_H_
 
 #include <string>
-#include <boost/smart_ptr.hpp>
+#include <memory>
 #include "Color.h"
 #include "Geom2d.h"
 
@@ -12,10 +12,10 @@ typedef unsigned char UBYTE;
 namespace ImageFuncs
 {
 	// Loads TGA file, returning allocated data and filling up rImageInfo
-	boost::shared_array<UBYTE> LoadTGA(const std::string& strFileName, ImageInfo& rImageInfo);
+	std::shared_ptr<UBYTE> LoadTGA(const std::string& strFileName, ImageInfo& rImageInfo);
 
 	// Loads up RAW file, returning allocate data and filling up rImageInfo
-	boost::shared_array<UBYTE> LoadRAW(
+	std::shared_ptr<UBYTE> LoadRAW(
 		const std::string& strFileName,
 		int iWidth, int iHeight, int iChannels,
 		ImageInfo& rImageInfo);
@@ -25,8 +25,8 @@ namespace ImageFuncs
 	// also updated (iChannels is set to 4).
 	// NOTE: both rpData and rImageInfo are in/out parameters.
 	void AddAlphaChannel(
-		boost::shared_array<UBYTE>& rpData, ImageInfo& rImageInfo,
-		const Color3UB& color);
+		std::shared_ptr<UBYTE>& rpData, ImageInfo& rImageInfo,
+		const Color4UB& color);
 
 	// Modifies rpData by adding an all white alpha channel. This is useful when you
 	// need an alpha channel, but no transparency (used by GrowToPowerOf2)

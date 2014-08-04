@@ -2,8 +2,7 @@
 #define _TEXTURE_H_
 
 #include <string>
-#include <boost/smart_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
 #include "Renderer.h"
 #include "Geom2D.h"
 #include "TextureId.h"
@@ -12,8 +11,8 @@ typedef Point2d<float> TexPos;
 typedef Size2d<float> TexSize;
 
 class Texture;
-typedef boost::shared_ptr<Texture> TextureShPtr;
-typedef boost::weak_ptr<Texture> TextureWkPtr;
+typedef std::shared_ptr<Texture> TextureShPtr;
+typedef std::weak_ptr<Texture> TextureWkPtr;
 
 // Represents a single texture.
 class Texture

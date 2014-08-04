@@ -1,6 +1,6 @@
 #include "GLRenderer.h"
 
-#include <boost/smart_ptr.hpp>
+#include <memory>
 #include "SmartAssert.h"
 #include "ImageFuncs.h"
 #include "GLHelper.h" // Internal
@@ -58,7 +58,7 @@ void GLRenderer::DoMatrixMode(eMatrixMode mode)
 TextureId GLRenderer::LoadTexture(const ImageData& rImageData, Size2d<float>& rTextureSize)
 {
 	// Make our own copy of the data because we need to manipulate it
-	boost::scoped_array<UBYTE> pDataCopy( new UBYTE[rImageData.GetDataSize()] );
+	std::shared_ptr<UBYTE> pDataCopy( new UBYTE[rImageData.GetDataSize()], std::default_delete<UBYTE[]>() );
 	rImageData.CopyDataTo(pDataCopy.get());	
 
 	// And a copy of the image info

@@ -1,20 +1,12 @@
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tetris", "Tetris\Tetris.vcproj", "{E43A561C-FCD0-4A16-B367-3BAA844A1F9B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F9D3BB0E-BEE8-4DFD-B743-E8AE4F2C0B6B} = {F9D3BB0E-BEE8-4DFD-B743-E8AE4F2C0B6B}
-		{24F79E4D-9CEA-49B2-AC55-381F3700CCA8} = {24F79E4D-9CEA-49B2-AC55-381F3700CCA8}
-	EndProjectSection
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tetris", "Tetris\Tetris.vcxproj", "{E43A561C-FCD0-4A16-B367-3BAA844A1F9B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ThemeEditor", "ThemeEditor\ThemeEditor.vcproj", "{26508F05-E514-4E0F-BB4B-F9A701517F83}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ThemeEditor", "ThemeEditor\ThemeEditor.vcxproj", "{26508F05-E514-4E0F-BB4B-F9A701517F83}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ThemeLauncher", "ThemeLauncher\ThemeLauncher.vcproj", "{F9D3BB0E-BEE8-4DFD-B743-E8AE4F2C0B6B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{26508F05-E514-4E0F-BB4B-F9A701517F83} = {26508F05-E514-4E0F-BB4B-F9A701517F83}
-		{24F79E4D-9CEA-49B2-AC55-381F3700CCA8} = {24F79E4D-9CEA-49B2-AC55-381F3700CCA8}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ThemeLauncher", "ThemeLauncher\ThemeLauncher.vcxproj", "{F9D3BB0E-BEE8-4DFD-B743-E8AE4F2C0B6B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GSGameLib", "GSGameLib\GSGameLib.vcproj", "{24F79E4D-9CEA-49B2-AC55-381F3700CCA8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GSGameLib", "GSGameLib\GSGameLib.vcxproj", "{24F79E4D-9CEA-49B2-AC55-381F3700CCA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

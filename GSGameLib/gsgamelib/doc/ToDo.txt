@@ -208,10 +208,10 @@
 	* Color3 and Color4 template classes.
 
 - Hide Texture constructor and make Load() functions static (named constructors) that
-  return boost::shared_ptr<Texture>.
+  return std::shared_ptr<Texture>.
 
-- Replace boost::shared_ptr<> declarations with a typedef of the form ClassNameShPtr,
-  and provide boost::weak_ptr<> typedef of the form ClassNameWkPtr
+- Replace std::shared_ptr<> declarations with a typedef of the form ClassNameShPtr,
+  and provide std::weak_ptr<> typedef of the form ClassNameWkPtr
 
 - Improved Color template classes - provided partial template specialized assignment
   operators to convert between different types of Color<> instances.

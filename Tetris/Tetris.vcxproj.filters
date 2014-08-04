@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{09de7620-352c-4b60-b61f-123ab277e906}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="TTM Core">
+      <UniqueIdentifier>{54dd8fd0-62af-405b-ad08-7ee6d9f2a820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Doc">
+      <UniqueIdentifier>{7e48a6c9-0492-42a2-a68a-fe1dc47b5794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{8d8cfd67-bc8e-4ae0-a0bc-2b01bc63d4e1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tetris.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Defs.cpp">
+      <Filter>TTM Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TMBlock.cpp">
+      <Filter>TTM Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TMBlockFactory.cpp">
+      <Filter>TTM Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TMFont.cpp">
+      <Filter>TTM Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TMHighScoreMgr.cpp">
+      <Filter>TTM Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TMMap.cpp">
+      <Filter>TTM Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TMScreen.cpp">
+      <Filter>TTM Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TMTheme.cpp">
+      <Filter>TTM Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Tetris.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Defs.h">
+      <Filter>TTM Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TMBlock.h">
+      <Filter>TTM Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TMBlockFactory.h">
+      <Filter>TTM Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TMFont.h">
+      <Filter>TTM Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TMHighScoreMgr.h">
+      <Filter>TTM Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TMMap.h">
+      <Filter>TTM Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TMScreen.h">
+      <Filter>TTM Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TMTheme.h">
+      <Filter>TTM Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureComposite.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="OldTetrisInfo.txt">
+      <Filter>Doc</Filter>
+    </Text>
+    <Text Include="ReadMe.txt">
+      <Filter>Doc</Filter>
+    </Text>
+    <Text Include="tetris_standard_specifications.txt">
+      <Filter>Doc</Filter>
+    </Text>
+    <Text Include="ToDo.txt">
+      <Filter>Doc</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

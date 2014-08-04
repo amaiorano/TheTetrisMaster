@@ -27,14 +27,14 @@ ImageData ImageData::Load(const std::string& strFileName)
 ImageData ImageData::LoadTGA(const std::string& strFileName)
 {
 	ImageInfo imageInfo;
-	boost::shared_array<UBYTE> pData = ImageFuncs::LoadTGA(strFileName, imageInfo);
+	std::shared_ptr<UBYTE> pData = ImageFuncs::LoadTGA(strFileName, imageInfo);
 	return ImageData(strFileName, imageInfo, pData);
 }
 
 ImageData ImageData::LoadRAW(const std::string& strFileName, int iWidth, int iHeight, int iChannels/*=3*/)
 {
 	ImageInfo imageInfo;
-	boost::shared_array<UBYTE> pData = ImageFuncs::LoadRAW(strFileName, iWidth, iHeight, iChannels, imageInfo);
+	std::shared_ptr<UBYTE> pData = ImageFuncs::LoadRAW(strFileName, iWidth, iHeight, iChannels, imageInfo);
 	return ImageData(strFileName, imageInfo, pData);
 }
 
@@ -44,7 +44,7 @@ ImageData::ImageData()
 }
 
 // Protected constructor called by static functions
-ImageData::ImageData(const std::string& strFileName, const ImageInfo& rImageInfo, boost::shared_array<UBYTE> pData, bool bFitToPower2Buffer/*=true*/)
+ImageData::ImageData(const std::string& strFileName, const ImageInfo& rImageInfo, std::shared_ptr<UBYTE> pData, bool bFitToPower2Buffer/*=true*/)
 : m_strFileName(strFileName), m_imageInfo(rImageInfo), m_pData(pData)
 {
 }
@@ -60,7 +60,7 @@ ImageData::ImageData(const ImageData& rhs)
 
 	// Allocate our own memory for this image and copy contents
 	// of rhs image into it
-	m_pData.reset( new UBYTE[rhs.GetDataSize()] );
+	m_pData.reset( new UBYTE[rhs.GetDataSize()], std::default_delete<UBYTE[]>() );
 	rhs.CopyDataTo(m_pData.get());
 }
 
@@ -73,7 +73,7 @@ ImageData& ImageData::operator=(const ImageData& rhs)
 
 		// Allocate our own memory for this image and copy contents
 		// of rhs image into it
-		m_pData.reset( new UBYTE[rhs.GetDataSize()] );
+		m_pData.reset( new UBYTE[rhs.GetDataSize()], std::default_delete<UBYTE[]>() );
 		rhs.CopyDataTo(m_pData.get());
 	}
 	return *this;
@@ -118,7 +118,7 @@ ImageData ImageData::GetSubImageData(int srcX, int srcY, int srcWidth, int srcHe
 	SMART_ASSERT(bCopy == true).msg("Refs not implemented yet");
 
 	// Allocate memory for the data
-	boost::shared_array<UBYTE> pDstData( new UBYTE[srcHeight * srcWidth * GetChannels()] );
+	std::shared_ptr<UBYTE> pDstData( new UBYTE[srcHeight * srcWidth * GetChannels()], std::default_delete<UBYTE[]>() );
 
 	// Now copy the data
 	CopyDataTo(pDstData.get(), srcX, srcY, srcWidth, srcHeight);
@@ -147,7 +147,7 @@ ImageData& ImageData::Scale(unsigned int iWidthScaleFactor, unsigned int iHeight
 
 	// Allocate larger data buffer
 	int iScaledBuffSizeBytes = m_imageInfo.GetDataSize() * iWidthScaleFactor * iHeightScaleFactor;
-	boost::shared_array<UBYTE> pScaledData( new UBYTE[iScaledBuffSizeBytes] );
+	std::shared_ptr<UBYTE> pScaledData( new UBYTE[iScaledBuffSizeBytes], std::default_delete<UBYTE[]>() );
 
 	UBYTE* pSrc = m_pData.get();
 	UBYTE* pDst = pScaledData.get();	

@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GameApp">
+      <UniqueIdentifier>{014fc707-6b13-4411-b6a3-2a8bfe6826c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{c483a2a0-c82a-4329-9a03-b5602defd508}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Viewport">
+      <UniqueIdentifier>{19acce26-f457-4550-a0bb-b2f4889dccea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Image">
+      <UniqueIdentifier>{f9a98335-7d70-473f-90ed-c2198773d185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Image\Internal">
+      <UniqueIdentifier>{626166e2-88d7-4938-a732-21896fe56869}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Utils">
+      <UniqueIdentifier>{5defa01e-0610-40e8-9bf8-97309515aa38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Texture">
+      <UniqueIdentifier>{f4788964-3fd4-47a5-8b95-c18a096cd166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Renderer">
+      <UniqueIdentifier>{c9208b6d-8ecb-4717-a41a-111963105d2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Renderer\Impl">
+      <UniqueIdentifier>{0dbf71d6-1352-4509-8b5b-59a0155543b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Renderer\Impl\GL">
+      <UniqueIdentifier>{19759aa1-6e41-440f-b00e-b2c1b54cfc6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\2D">
+      <UniqueIdentifier>{91f63a12-d4f1-4954-ae6a-e043bee015ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\ASE">
+      <UniqueIdentifier>{9000f82e-697e-4420-9c71-9c2ab3486dbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window">
+      <UniqueIdentifier>{c79c9764-3397-4d4b-bd10-96602f4d6b59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window\Impl">
+      <UniqueIdentifier>{b52f516b-9e20-4842-95dd-31c288112760}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window\Impl\Win32">
+      <UniqueIdentifier>{cbe61ffe-9900-493f-b304-2124e815ab15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Binder">
+      <UniqueIdentifier>{7bf368ea-b825-4803-8ea5-84b933e9caa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Binder\Impl">
+      <UniqueIdentifier>{945e0c64-4b85-42af-ada9-eef3d1de8669}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Binder\Impl\GLWin32">
+      <UniqueIdentifier>{0a2e8a9a-e55f-4b93-bacf-ee3d02ee321b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{aceff616-e90a-4e16-a946-39c345ab6638}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{7e57857a-4210-4bfc-ae2b-567708690655}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio\Internal">
+      <UniqueIdentifier>{6497aeaa-e097-41ed-98f3-fd251da52dda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{daaade10-eeec-4c29-b69b-4f7f975c6f20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{3d60f85f-29b9-44d6-8273-e8940b6e360f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Doc">
+      <UniqueIdentifier>{6bcb8369-7869-4617-89b2-6919e7e2f9f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd Party">
+      <UniqueIdentifier>{3c7b0fea-9dcd-4db1-85e4-13c04579ddf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd Party\Audiere">
+      <UniqueIdentifier>{6458d887-c246-40e2-acd3-de3fa259c7ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCore">
+      <UniqueIdentifier>{9d326e19-8d22-4755-b9f2-00480abe9aa8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="gsgamelib\src\GameApp.cpp">
+      <Filter>GameApp</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\IViewport.cpp">
+      <Filter>Graphics\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\ImageData.cpp">
+      <Filter>Graphics\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\ImageFuncs.cpp">
+      <Filter>Graphics\Image\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\ColorFuncs.cpp">
+      <Filter>Graphics\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\Texture.cpp">
+      <Filter>Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\Renderer.cpp">
+      <Filter>Graphics\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\GLRenderer.cpp">
+      <Filter>Graphics\Renderer\Impl\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\Tile.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\ASELoader.cpp">
+      <Filter>Graphics\ASE</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\ASEMaterial.cpp">
+      <Filter>Graphics\ASE</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\ASEObject.cpp">
+      <Filter>Graphics\ASE</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\Window.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\Win32Window.cpp">
+      <Filter>Window\Impl\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\ViewportWindowBinderFactory.cpp">
+      <Filter>Binder</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\GLWin32ViewportWindowBinder.cpp">
+      <Filter>Binder\Impl\GLWin32</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\KeyboardMgr.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\AudioStream.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\AudioStreamMgr.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\AudioState.cpp">
+      <Filter>Audio\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\Vector.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\Config.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\FrameRateTimer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\HighResTimer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\MonitorData.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\SmartAssert.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="gsgamelib\src\string_helpers.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gsgamelib\src\GameApp.h">
+      <Filter>GameApp</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\IGameEngine.h">
+      <Filter>GameApp</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\IViewport.h">
+      <Filter>Graphics\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Ortho2dViewport.h">
+      <Filter>Graphics\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Persp2dViewport.h">
+      <Filter>Graphics\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Persp3dViewport.h">
+      <Filter>Graphics\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\ImageData.h">
+      <Filter>Graphics\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\ImageFuncs.h">
+      <Filter>Graphics\Image\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Color.h">
+      <Filter>Graphics\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\ColorFuncs.h">
+      <Filter>Graphics\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\TextureId.h">
+      <Filter>Graphics\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Texture.h">
+      <Filter>Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\IRenderer.h">
+      <Filter>Graphics\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Renderer.h">
+      <Filter>Graphics\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\GLHelper.h">
+      <Filter>Graphics\Renderer\Impl\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\GLRenderer.h">
+      <Filter>Graphics\Renderer\Impl\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\AnimSeq.h">
+      <Filter>Graphics\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\GameNode.h">
+      <Filter>Graphics\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Tile.h">
+      <Filter>Graphics\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\ASELoader.h">
+      <Filter>Graphics\ASE</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\ASEMaterial.h">
+      <Filter>Graphics\ASE</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\ASEObject.h">
+      <Filter>Graphics\ASE</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\IWindow.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Window.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\WindowEvents.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Win32Window.h">
+      <Filter>Window\Impl\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\IViewportWindowBinder.h">
+      <Filter>Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\ViewportWindowBinderFactory.h">
+      <Filter>Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\GLWin32ViewportWindowBinder.h">
+      <Filter>Binder\Impl\GLWin32</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\KeyboardMgr.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\AudioStream.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\AudioStreamMgr.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\AudioState.h">
+      <Filter>Audio\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\MultiOutputStream.h">
+      <Filter>Audio\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Geom2D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\MathDefs.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Vector.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Angle.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\auto_array.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Config.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\EventSystem.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\FrameRateTimer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\HighResTimer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\MonitorData.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\Singleton.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\SmartAssert.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\string_helpers.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\3rdparty\audiere\audiere.h">
+      <Filter>3rd Party\Audiere</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\GameClock.h">
+      <Filter>GameCore</Filter>
+    </ClInclude>
+    <ClInclude Include="gsgamelib\src\GSGameLib.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="gsgamelib\doc\Ideas.txt">
+      <Filter>Doc</Filter>
+    </Text>
+    <Text Include="gsgamelib\doc\References.txt">
+      <Filter>Doc</Filter>
+    </Text>
+    <Text Include="gsgamelib\doc\ToDo.txt">
+      <Filter>Doc</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="gsgamelib\3rdparty\audiere\audiere.lib">
+      <Filter>3rd Party\Audiere</Filter>
+    </Library>
+  </ItemGroup>
+</Project>

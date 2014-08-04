@@ -15,7 +15,7 @@ setlocal
 set CFG=%2
 if "%CFG%"=="" goto :ERROR
 
-set COPY_CMD=xcopy.exe /S /R /K /Y /D /EXCLUDE:exclude.txt
+set COPY_CMD=xcopy.exe /S /R /K /Y /D
 
 set DATA_DIR=.\Data
 set OUTPUT_DIR=".\output\The Tetris Master"

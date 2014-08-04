@@ -2,7 +2,7 @@
 #define _TILE_H_
 
 #include <string>
-#include <boost/smart_ptr.hpp>
+#include <memory>
 #include "GameNode.h"
 #include "ImageData.h"
 #include "Color.h"
@@ -55,7 +55,7 @@ public:
 
 private:
 	TextureId m_firstTexId;
-	boost::shared_ptr<AnimSeq> m_pAnimSeq;	
+	std::shared_ptr<AnimSeq> m_pAnimSeq;	
 	GameClockClient m_clock;
 };
 
@@ -97,7 +97,7 @@ public:
 private:
 	bool m_bCollidable;
 	
-	typedef std::vector<boost::shared_ptr<TileLayer> > TileLayerPtrArray;
+	typedef std::vector<std::shared_ptr<TileLayer> > TileLayerPtrArray;
 	TileLayerPtrArray m_tileLayerPtrs;
 	size_t m_iLowLayerIdx, m_iHighLayerIdx;
 };

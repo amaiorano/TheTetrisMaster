@@ -52,14 +52,4 @@
 #include "GameClock.h"
 
 
-// Under Windows, link directly with the lib. Make sure the
-// lib path is set in Visual Studio.
-#ifdef WIN32
-#ifdef _DEBUG
-#pragma comment(lib, "GSGameLib_debug.lib")
-#else
-#pragma comment(lib, "GSGameLib.lib")
-#endif // _DEBUG
-#endif // WIN32
-
 #endif // _GSGAMELIB_H_

@@ -2,7 +2,7 @@
 #define _IMAGE_DATA_H_
 
 #include <string>
-#include <boost/smart_ptr.hpp>
+#include <memory>
 #include "Geom2d.h"
 #include "Color.h"
 
@@ -82,7 +82,7 @@ class ImageData
 
 	private:
 		ImageData();
-		ImageData(const std::string& strFileName, const ImageInfo& rImageInfo, boost::shared_array<UBYTE> pData, bool bFitToPower2Buffer=true);
+		ImageData(const std::string& strFileName, const ImageInfo& rImageInfo, std::shared_ptr<UBYTE> pData, bool bFitToPower2Buffer=true);
 
 		/////////////////////////////////////////////////////////////////////////////
 		// NOTE: This class has a copy constructor/assignment operator function.
@@ -91,7 +91,7 @@ class ImageData
 
 		std::string m_strFileName;			// The image file name
 		ImageInfo m_imageInfo;				// Image information
-		boost::shared_array<UBYTE> m_pData;	// Pointer to image data buffer
+		std::shared_ptr<UBYTE> m_pData;		// Pointer to image data buffer
 };
 
 #endif // _IMAGE_DATA_H_

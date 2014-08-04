@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{24F79E4D-9CEA-49B2-AC55-381F3700CCA8}</ProjectGuid>
+    <RootNamespace>GSGameLib</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Shared Settings - Release.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\Shared Settings - Debug.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.61030.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>gsgamelib\lib\</OutDir>
+    <IntDir>Debug\</IntDir>
+    <TargetName>GSGameLib_debug</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>gsgamelib\lib\</OutDir>
+    <IntDir>Release\</IntDir>
+    <TargetName>GSGameLib</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Lib />
+    <PostBuildEvent>
+      <Command>$(ProjectDir)\postbuild.bat $(ProjectDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <OmitFramePointers>true</OmitFramePointers>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib />
+    <PostBuildEvent>
+      <Command>$(ProjectDir)\postbuild.bat $(ProjectDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="gsgamelib\src\GameApp.cpp" />
+    <ClCompile Include="gsgamelib\src\IViewport.cpp" />
+    <ClCompile Include="gsgamelib\src\ImageData.cpp" />
+    <ClCompile Include="gsgamelib\src\ImageFuncs.cpp" />
+    <ClCompile Include="gsgamelib\src\ColorFuncs.cpp" />
+    <ClCompile Include="gsgamelib\src\Texture.cpp" />
+    <ClCompile Include="gsgamelib\src\Renderer.cpp" />
+    <ClCompile Include="gsgamelib\src\GLRenderer.cpp" />
+    <ClCompile Include="gsgamelib\src\Tile.cpp" />
+    <ClCompile Include="gsgamelib\src\ASELoader.cpp" />
+    <ClCompile Include="gsgamelib\src\ASEMaterial.cpp" />
+    <ClCompile Include="gsgamelib\src\ASEObject.cpp" />
+    <ClCompile Include="gsgamelib\src\Window.cpp" />
+    <ClCompile Include="gsgamelib\src\Win32Window.cpp" />
+    <ClCompile Include="gsgamelib\src\ViewportWindowBinderFactory.cpp" />
+    <ClCompile Include="gsgamelib\src\GLWin32ViewportWindowBinder.cpp" />
+    <ClCompile Include="gsgamelib\src\KeyboardMgr.cpp" />
+    <ClCompile Include="gsgamelib\src\AudioStream.cpp" />
+    <ClCompile Include="gsgamelib\src\AudioStreamMgr.cpp" />
+    <ClCompile Include="gsgamelib\src\AudioState.cpp" />
+    <ClCompile Include="gsgamelib\src\Vector.cpp" />
+    <ClCompile Include="gsgamelib\src\Config.cpp" />
+    <ClCompile Include="gsgamelib\src\FrameRateTimer.cpp" />
+    <ClCompile Include="gsgamelib\src\HighResTimer.cpp" />
+    <ClCompile Include="gsgamelib\src\MonitorData.cpp" />
+    <ClCompile Include="gsgamelib\src\SmartAssert.cpp" />
+    <ClCompile Include="gsgamelib\src\string_helpers.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gsgamelib\src\GameApp.h" />
+    <ClInclude Include="gsgamelib\src\IGameEngine.h" />
+    <ClInclude Include="gsgamelib\src\IViewport.h" />
+    <ClInclude Include="gsgamelib\src\Ortho2dViewport.h" />
+    <ClInclude Include="gsgamelib\src\Persp2dViewport.h" />
+    <ClInclude Include="gsgamelib\src\Persp3dViewport.h" />
+    <ClInclude Include="gsgamelib\src\ImageData.h" />
+    <ClInclude Include="gsgamelib\src\ImageFuncs.h" />
+    <ClInclude Include="gsgamelib\src\Color.h" />
+    <ClInclude Include="gsgamelib\src\ColorFuncs.h" />
+    <ClInclude Include="gsgamelib\src\TextureId.h" />
+    <ClInclude Include="gsgamelib\src\Texture.h" />
+    <ClInclude Include="gsgamelib\src\IRenderer.h" />
+    <ClInclude Include="gsgamelib\src\Renderer.h" />
+    <ClInclude Include="gsgamelib\src\GLHelper.h" />
+    <ClInclude Include="gsgamelib\src\GLRenderer.h" />
+    <ClInclude Include="gsgamelib\src\AnimSeq.h" />
+    <ClInclude Include="gsgamelib\src\GameNode.h" />
+    <ClInclude Include="gsgamelib\src\Tile.h" />
+    <ClInclude Include="gsgamelib\src\ASELoader.h" />
+    <ClInclude Include="gsgamelib\src\ASEMaterial.h" />
+    <ClInclude Include="gsgamelib\src\ASEObject.h" />
+    <ClInclude Include="gsgamelib\src\IWindow.h" />
+    <ClInclude Include="gsgamelib\src\Window.h" />
+    <ClInclude Include="gsgamelib\src\WindowEvents.h" />
+    <ClInclude Include="gsgamelib\src\Win32Window.h" />
+    <ClInclude Include="gsgamelib\src\IViewportWindowBinder.h" />
+    <ClInclude Include="gsgamelib\src\ViewportWindowBinderFactory.h" />
+    <ClInclude Include="gsgamelib\src\GLWin32ViewportWindowBinder.h" />
+    <ClInclude Include="gsgamelib\src\KeyboardMgr.h" />
+    <ClInclude Include="gsgamelib\src\AudioStream.h" />
+    <ClInclude Include="gsgamelib\src\AudioStreamMgr.h" />
+    <ClInclude Include="gsgamelib\src\AudioState.h" />
+    <ClInclude Include="gsgamelib\src\MultiOutputStream.h" />
+    <ClInclude Include="gsgamelib\src\Geom2D.h" />
+    <ClInclude Include="gsgamelib\src\MathDefs.h" />
+    <ClInclude Include="gsgamelib\src\Vector.h" />
+    <ClInclude Include="gsgamelib\src\Angle.h" />
+    <ClInclude Include="gsgamelib\src\auto_array.h" />
+    <ClInclude Include="gsgamelib\src\Config.h" />
+    <ClInclude Include="gsgamelib\src\EventSystem.h" />
+    <ClInclude Include="gsgamelib\src\FrameRateTimer.h" />
+    <ClInclude Include="gsgamelib\src\HighResTimer.h" />
+    <ClInclude Include="gsgamelib\src\MonitorData.h" />
+    <ClInclude Include="gsgamelib\src\Singleton.h" />
+    <ClInclude Include="gsgamelib\src\SmartAssert.h" />
+    <ClInclude Include="gsgamelib\src\string_helpers.h" />
+    <ClInclude Include="gsgamelib\3rdparty\audiere\audiere.h" />
+    <ClInclude Include="gsgamelib\src\GameClock.h" />
+    <ClInclude Include="gsgamelib\src\GSGameLib.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="gsgamelib\doc\Ideas.txt" />
+    <Text Include="gsgamelib\doc\References.txt" />
+    <Text Include="gsgamelib\doc\ToDo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="gsgamelib\3rdparty\audiere\audiere.lib" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
