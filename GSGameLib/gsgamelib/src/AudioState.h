@@ -20,7 +20,7 @@
 // Paused --> Playing or Stopped
 
 // Include Audiere library header
-#include "../3rdParty/audiere/audiere.h"
+#include "../external/audiere/audiere.h"
 
 // Useful typedef
 typedef audiere::OutputStreamPtr& OutputStreamPtrRef;

@@ -24,7 +24,7 @@ set THEME_DIR=%OUTPUT_DIR%\Themes
 set TETRIS_EXE=".\Tetris\%CFG%\Tetris.exe"
 set LAUNCHER_EXE=".\ThemeLauncher\%CFG%\TTM Theme Launcher.exe"
 set EDITOR_EXE=".\ThemeEditor\%CFG%\TTM Theme Editor.exe"
-set AUDIERE_DLL=".\GSGameLib\gsgamelib\bin\audiere.dll"
+set AUDIERE_DLL=".\GSGameLib\gsgamelib\external\audiere\audiere.dll"
 
 set README_TXT=".\Tetris\ReadMe.txt"
 

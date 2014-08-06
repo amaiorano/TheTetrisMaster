@@ -73,14 +73,14 @@
     <Filter Include="Doc">
       <UniqueIdentifier>{6bcb8369-7869-4617-89b2-6919e7e2f9f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3rd Party">
-      <UniqueIdentifier>{3c7b0fea-9dcd-4db1-85e4-13c04579ddf6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3rd Party\Audiere">
-      <UniqueIdentifier>{6458d887-c246-40e2-acd3-de3fa259c7ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameCore">
       <UniqueIdentifier>{9d326e19-8d22-4755-b9f2-00480abe9aa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{3c7b0fea-9dcd-4db1-85e4-13c04579ddf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\Audiere">
+      <UniqueIdentifier>{6458d887-c246-40e2-acd3-de3fa259c7ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -308,13 +308,13 @@
     <ClInclude Include="gsgamelib\src\string_helpers.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="gsgamelib\3rdparty\audiere\audiere.h">
-      <Filter>3rd Party\Audiere</Filter>
-    </ClInclude>
     <ClInclude Include="gsgamelib\src\GameClock.h">
       <Filter>GameCore</Filter>
     </ClInclude>
     <ClInclude Include="gsgamelib\src\GSGameLib.h" />
+    <ClInclude Include="gsgamelib\external\audiere\audiere.h">
+      <Filter>external\Audiere</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="gsgamelib\doc\Ideas.txt">
@@ -328,8 +328,8 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="gsgamelib\3rdparty\audiere\audiere.lib">
-      <Filter>3rd Party\Audiere</Filter>
+    <Library Include="gsgamelib\external\audiere\audiere.lib">
+      <Filter>external\Audiere</Filter>
     </Library>
   </ItemGroup>
 </Project>

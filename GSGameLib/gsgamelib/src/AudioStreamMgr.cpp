@@ -4,7 +4,7 @@
 #include "SmartAssert.h"
 
 // Include Audiere library header
-#include "../3rdParty/audiere/audiere.h"
+#include "../external/audiere/audiere.h"
 
 // Use std namespace
 using namespace std;

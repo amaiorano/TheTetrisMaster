@@ -10,7 +10,7 @@
 #include <algorithm>
 
 // Include Audiere library header
-#include "../3rdParty/audiere/audiere.h"
+#include "../external/audiere/audiere.h"
 
 // Function defined in AudioStreamMgr.cpp
 audiere::AudioDevicePtr& GetAudioDevicePtr();

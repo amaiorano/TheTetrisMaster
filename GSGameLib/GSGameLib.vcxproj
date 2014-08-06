@@ -67,7 +67,8 @@
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>$(ProjectDir)\postbuild.bat $(ProjectDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,7 +88,8 @@
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>$(ProjectDir)\postbuild.bat $(ProjectDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -120,6 +122,7 @@
     <ClCompile Include="gsgamelib\src\string_helpers.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gsgamelib\external\audiere\audiere.h" />
     <ClInclude Include="gsgamelib\src\GameApp.h" />
     <ClInclude Include="gsgamelib\src\IGameEngine.h" />
     <ClInclude Include="gsgamelib\src\IViewport.h" />
@@ -167,7 +170,6 @@
     <ClInclude Include="gsgamelib\src\Singleton.h" />
     <ClInclude Include="gsgamelib\src\SmartAssert.h" />
     <ClInclude Include="gsgamelib\src\string_helpers.h" />
-    <ClInclude Include="gsgamelib\3rdparty\audiere\audiere.h" />
     <ClInclude Include="gsgamelib\src\GameClock.h" />
     <ClInclude Include="gsgamelib\src\GSGameLib.h" />
   </ItemGroup>
@@ -177,7 +179,7 @@
     <Text Include="gsgamelib\doc\ToDo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="gsgamelib\3rdparty\audiere\audiere.lib" />
+    <Library Include="gsgamelib\external\audiere\audiere.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
