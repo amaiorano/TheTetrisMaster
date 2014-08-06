@@ -30,4 +30,5 @@ ipch/
 *.wwdb
 
 # Project-specific
-output/
+_output/
+_game/
