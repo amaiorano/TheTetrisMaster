@@ -3,6 +3,11 @@
 A tetris game for Windows that supports user-created themes.
 
 
+## Download
+
+Download the latest release (zip file) here: https://github.com/amaiorano/TheTetrisMaster/releases
+
+
 ## History
 
 Development of The Tetris Master (TTM) began during the winter break of 1999, while I was still at University. One of the main goals of this project was to involve my friends in the creation process via the theming system.
