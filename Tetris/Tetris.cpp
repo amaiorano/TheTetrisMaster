@@ -13,9 +13,9 @@ bool TheTetrisMaster::Initialize()
 	m_bBlockWasPlaced = false;
 
 	// Load up game config
-	m_gameConfig.AddVar("fullscreen", "true");
-	m_gameConfig.AddVar("win_width", 640);
-	m_gameConfig.AddVar("win_height", 480);
+	m_gameConfig.AddVar("fullscreen", "false");
+	m_gameConfig.AddVar("win_width", 1024);
+	m_gameConfig.AddVar("win_height", 768);
 	m_gameConfig.AddVar("audio", "true");
 	m_gameConfig.LoadConfigFile("TTM.cfg");
 	return true;

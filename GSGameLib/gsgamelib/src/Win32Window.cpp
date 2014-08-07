@@ -41,7 +41,7 @@ Win32Window::~Win32Window(void)
 {
 }
 
-void Win32Window::DoCreate(const std::string& strTitle, int iWidth, int iHeight, int iBitsPerPixel, bool bFullScreen)
+void Win32Window::DoCreate(const std::string& strTitle, int iWidth, int iHeight, int iBitsPerPixel, bool& bFullScreen)
 {
 	m_hInstance = ::GetModuleHandle(NULL); // Grab an instance for the window
 

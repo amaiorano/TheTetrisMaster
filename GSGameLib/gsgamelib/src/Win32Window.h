@@ -15,7 +15,7 @@ public:
 	virtual ~Win32Window(void);
 
 	// IWindow implementation
-	virtual void DoCreate(const std::string& strTitle, int iWidth, int iHeight, int iBitsPerPixel, bool bFullScreen);
+	virtual void DoCreate(const std::string& strTitle, int iWidth, int iHeight, int iBitsPerPixel, bool& bFullScreen);
 	virtual void DoDestroy(bool bIsFullscreen);
 	virtual void Show();
 	virtual void Hide();

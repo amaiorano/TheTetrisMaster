@@ -29,7 +29,7 @@ public:
 	inline void Create(const std::string& strTitle="My Window", int iWidth=640, int iHeight=480, int iBitsPerPixel=32, bool bFullScreen=false);
 
 protected:
-	virtual void DoCreate(const std::string& strTitle, int iWidth, int iHeight, int iBitsPerPixel, bool bFullScreen) = 0;
+	virtual void DoCreate(const std::string& strTitle, int iWidth, int iHeight, int iBitsPerPixel, bool& bFullScreen) = 0;
 public:
 
 	// Destroys the window

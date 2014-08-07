@@ -75,12 +75,6 @@ int GameApp::Run(IGameEngine& rGameEngine)
 	// Now we can initialize the Renderer
 	Renderer::Instance().Inititialize();
 
-	// Display the window and immediately swap the backbuffer - this will clear
-	// the screen/window to the current color buffer value
-	rWindow.Show();
-	m_pViewport->PreRenderFrame(); // Setup viewport (clears color buffer)
-	m_pViewport->SwapBuffers(); // This will clear the screen to current color buffer value
-
 	// Allow client to specify more graphics settings
 	m_pGameEngine->InitializeRenderer(Renderer::Instance());
 
@@ -90,6 +84,12 @@ int GameApp::Run(IGameEngine& rGameEngine)
 	// Allow client to load up game data
 	if ( !m_pGameEngine->LoadGameData() )
 		return GAMEAPP_FAIL;
+
+	// Display the window and immediately swap the backbuffer - this will clear
+	// the screen/window to the current color buffer value
+	rWindow.Show();
+	m_pViewport->PreRenderFrame(); // Setup viewport (clears color buffer)
+	m_pViewport->SwapBuffers(); // This will clear the screen to current color buffer value
 
 #ifdef GS_HANDLE_EXCEPTIONS
 	} // end try
