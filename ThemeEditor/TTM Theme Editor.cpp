@@ -19,7 +19,7 @@ int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpszA
 		return 0;
 
 	// Create the window
-	WinCreate win(className, hThisInstance, "The Tetris Master Theme Editor", "MainMenu", 320*2, 310);
+	WinCreate win(className, hThisInstance, "The Tetris Master Theme Editor", "MainMenu", 320*2, 330);
 
 	// Load Key Accelerator Table for the menu
 	HACCEL hAccel = win.LoadAccelTable(hThisInstance, "MainMenu");
