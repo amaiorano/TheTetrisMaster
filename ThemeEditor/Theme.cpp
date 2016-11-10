@@ -163,6 +163,10 @@ void ThemeObject::Load(char FileName[])
 		fin.read((char *)this, sizeof(*this));
 		fin.close();
 
+		// HACK: overwrite whatever we loaded from the file with the actual name of the file itself. This is to support
+		// copying themes and renaming them. Not sure why I even saved the theme name in the file in the first place!
+		strcpy(filename, FileName);
+
 		// Convert all filenames to long filename equivalents and save in global vars (long_*)
 		if (strlen(filename))
 		{
