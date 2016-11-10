@@ -106,8 +106,8 @@ bool TheTetrisMaster::LoadGameData()
 
 	m_pGameMusic->SetRepeat(true); // Make sure music loops
 
-#if 0 // Don't set volumes, the current audio library handles it very well.
-	m_pGameMusic->SetVolume( theme.GetMusicVolume() );
+#if 1 // Don't set volumes, the current audio library handles it very well.
+	m_pGameMusic->SetVolume(0.8f); // theme.GetMusicVolume() );
 
 	m_pPlaceBlockSound->SetVolume( theme.GetSoundVolume() );
 	m_p123LinesSound->SetVolume( theme.GetSoundVolume() );
