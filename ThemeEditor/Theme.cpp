@@ -3,6 +3,16 @@
 #include "theme.h"
 #include "globals.h"
 
+
+// HACK: Don't bother storing short file names anymore. This makes sure we can actually
+// load themes on volumes that don't store the 8.3 format. TODO: remove all this cruft.
+#undef GetShortPathName
+template <typename SizeT>
+void GetShortPathName(char in[], char out[], SizeT len)
+{
+	strncpy(out, in, len-1);
+}
+
 ColorObject Color[16];
 
 // Global buffers and variables

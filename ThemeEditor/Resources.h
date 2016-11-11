@@ -8,6 +8,7 @@
 #define	IDM_SAVETHEME				102
 #define IDM_PLAYGAME				103
 #define IDM_EXIT				104
+#define IDM_FORCESAVETHEME		122
 
 #define IDM_FULLSCREEN				118
 

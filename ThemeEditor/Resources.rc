@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -16,26 +16,25 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Menu
 //
 
-MAINMENU MENU DISCARDABLE 
+MAINMENU MENU
 BEGIN
     POPUP "&Theme"
     BEGIN
         MENUITEM "&New\tCtrl+N",                IDM_NEWTHEME
         MENUITEM "&Open...\tCtrl+O",            IDM_OPENTHEME
         MENUITEM "&Save\tCtrl+S",               IDM_SAVETHEME
+        MENUITEM "Force Save",                  IDM_FORCESAVETHEME
         MENUITEM SEPARATOR
         MENUITEM "&Play Game\tF10",             IDM_PLAYGAME
         MENUITEM SEPARATOR
@@ -49,8 +48,7 @@ BEGIN
     BEGIN
         MENUITEM "&Background...\t(320x240)",   IDM_LOADBACKGROUND
         MENUITEM "B&locks...\t(70x10)",         IDM_LOADBLOCKS
-        MENUITEM "&Transparent Game Window...\t(100x200)", 
-                                                IDM_LOADGAMEWINDOW
+        MENUITEM "&Transparent Game Window...\t(100x200)", IDM_LOADGAMEWINDOW
     END
     POPUP "&Media"
     BEGIN
@@ -60,10 +58,8 @@ BEGIN
             MENUITEM "&Place Block",                IDM_LOADPLACEBLOCKSOUND
             MENUITEM "1,2,3 &Lines",                IDM_LOAD123LINESSOUND
             MENUITEM "&Tetris (4 Lines)",           IDM_LOADTETRISSOUND
-            MENUITEM "&Change Level",               IDM_LOADCHANGELEVELSOUND
-            , GRAYED
-            MENUITEM "&Game Over",                  IDM_LOADGAMEOVERSOUND
-            , GRAYED
+            MENUITEM "&Change Level",               IDM_LOADCHANGELEVELSOUND, GRAYED
+            MENUITEM "&Game Over",                  IDM_LOADGAMEOVERSOUND, GRAYED
         END
         MENUITEM "Set Starting &Volume",        IDM_SETVOLUME
     END
@@ -87,15 +83,15 @@ END
 // Accelerator
 //
 
-MAINMENU ACCELERATORS MOVEABLE PURE 
+MAINMENU ACCELERATORS
 BEGIN
-    VK_F1,          IDM_HELPTOPICS,         VIRTKEY 
-    VK_F10,         IDM_PLAYGAME,           VIRTKEY 
-    VK_ESCAPE,      IDM_EXIT,               VIRTKEY 
-    VK_RETURN,      IDM_FULLSCREEN,         VIRTKEY, ALT
-    "^N",           IDM_NEWTHEME,           ASCII   
-    "^O",           IDM_OPENTHEME,          ASCII   
-    "^S",           IDM_SAVETHEME,          ASCII   
+    VK_ESCAPE,      IDM_EXIT,               VIRTKEY, NOINVERT
+    VK_RETURN,      IDM_FULLSCREEN,         VIRTKEY, ALT, NOINVERT
+    VK_F1,          IDM_HELPTOPICS,         VIRTKEY, NOINVERT
+    "^N",           IDM_NEWTHEME,           ASCII,  NOINVERT
+    "^O",           IDM_OPENTHEME,          ASCII,  NOINVERT
+    VK_F10,         IDM_PLAYGAME,           VIRTKEY, NOINVERT
+    "^S",           IDM_SAVETHEME,          ASCII,  NOINVERT
 END
 
 
@@ -104,42 +100,37 @@ END
 // Dialog
 //
 
-NEWTHEME DIALOG DISCARDABLE  0, 0, 192, 86
-STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION
+NEWTHEME DIALOG 0, 0, 192, 86
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION
 CAPTION "Create New Theme"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,30,60,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,100,60,50,14
-    CTEXT           "Please enter the name of your new theme\n(maximum 80 characters)",
-                    IDC_STATIC,17,5,150,20
+    CTEXT           "Please enter the name of your new theme\n(maximum 80 characters)",IDC_STATIC,17,5,150,20
     EDITTEXT        IDC_NEWTHEMEEDIT,17,35,150,12,ES_AUTOHSCROLL
 END
 
-SELECTTLEVEL DIALOG DISCARDABLE  220, 20, 189, 92
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+SELECTTLEVEL DIALOG 220, 20, 189, 92
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Window Transparency Level"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "Apply",ID_TLEVELAPPLY,38,62,50,14
     PUSHBUTTON      "Ok",IDOK,101,62,50,14
-    CTEXT           "Please enter a value between 0 and 255.\n(0 = Completely transparent; 255 = Completely solid)",
-                    IDC_STATIC,13,14,166,18
+    CTEXT           "Please enter a value between 0 and 255.\n(0 = Completely transparent; 255 = Completely solid)",IDC_STATIC,13,14,166,18
     EDITTEXT        IDC_SELECTTLEVEL,65,38,60,14,ES_AUTOHSCROLL | ES_NUMBER
 END
 
-FONTOPTIONS DIALOG DISCARDABLE  220, 20, 322, 174
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONTOPTIONS DIALOG 220, 20, 322, 174
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Font Options"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Click here when you're done:",IDC_FONTSTATIC5,153,127,
-                    97,10
+    LTEXT           "Click here when you're done:",IDC_FONTSTATIC5,153,127,97,10
     PUSHBUTTON      "OK",IDOK,251,125,50,14
-    LISTBOX         IDC_COLORLIST,8,34,111,132,LBS_NOINTEGRALHEIGHT | 
-                    WS_VSCROLL | WS_TABSTOP
-    CTEXT           "Select a color from the list provided and click on Apply to set the Font Color or Font Shadow Color. You can also type in your own color index in the boxes provided (value between 0 and 65535).",
-                    IDC_FONTSTATIC4,3,6,314,19
+    LISTBOX         IDC_COLORLIST,8,34,111,132,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    CTEXT           "Select a color from the list provided and click on Apply to set the Font Color or Font Shadow Color. You can also type in your own color index in the boxes provided (value between 0 and 65535).",IDC_FONTSTATIC4,3,6,314,19
     EDITTEXT        IDC_FONTEDIT1,194,55,50,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Font Color:",IDC_FONTSTATIC1,156,57,35,8
     EDITTEXT        IDC_FONTEDIT2,194,73,50,14,ES_AUTOHSCROLL | ES_NUMBER
@@ -151,28 +142,25 @@ BEGIN
     PUSHBUTTON      "No",ID_USEFONTNO,251,91,50,14
 END
 
-DESCRIPTION DIALOG DISCARDABLE  0, 0, 219, 202
-STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+DESCRIPTION DIALOG 0, 0, 219, 202
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Enter Description"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,48,164,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,120,164,50,14
-    EDITTEXT        IDC_EDIT_DESCRIPTION,27,48,165,97,ES_MULTILINE | 
-                    ES_AUTOVSCROLL | ES_WANTRETURN
-    LTEXT           "In the box below, enter the text you wish to appear when selecting your theme in the game (e.g. Graphics artist, Music composer, what the theme represents, etc.)",
-                    IDC_STATIC_DESCRIPTION,19,10,181,27,SS_SUNKEN
+    EDITTEXT        IDC_EDIT_DESCRIPTION,27,48,165,97,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN
+    LTEXT           "In the box below, enter the text you wish to appear when selecting your theme in the game (e.g. Graphics artist, Music composer, what the theme represents, etc.)",IDC_STATIC_DESCRIPTION,19,10,181,27,SS_SUNKEN
 END
 
-SETVOLUME DIALOG DISCARDABLE  0, 0, 164, 100
-STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+SETVOLUME DIALOG 0, 0, 164, 100
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Set Starting Volume"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,26,73,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,87,73,50,14
-    CTEXT           "Set the starting volume for the\nmusic and sound for this theme.",
-                    IDC_STATIC_SETVOLUME1,27,13,109,20,SS_SUNKEN | WS_BORDER
+    CTEXT           "Set the starting volume for the\nmusic and sound for this theme.",IDC_STATIC_SETVOLUME1,27,13,109,20,SS_SUNKEN | WS_BORDER
     EDITTEXT        IDC_EDIT_MUSIC,89,36,43,13,ES_NUMBER
     EDITTEXT        IDC_EDIT_SOUND,89,51,43,13,ES_NUMBER
     LTEXT           "Music (0 - 64):",IDC_STATIC_SETVOLUME2,34,37,46,10
@@ -186,12 +174,12 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""resources.h""\r\n"
     "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
@@ -200,7 +188,7 @@ BEGIN
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -216,8 +204,9 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-LARGEICON               ICON    DISCARDABLE     "res\\icon1.ico"
-#endif    // English (U.S.) resources
+LARGEICON               ICON                    "res\\icon1.ico"
+
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
