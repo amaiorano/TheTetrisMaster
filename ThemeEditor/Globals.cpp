@@ -105,6 +105,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPara
 					break;
 
 				case IDM_SAVETHEME:
+				case IDM_FORCESAVETHEME:
 					if (Theme.Save())
 						SetThemeSaved(true);
 					break;
