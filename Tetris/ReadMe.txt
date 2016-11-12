@@ -1,6 +1,5 @@
 =========================<< The Tetris Master >>==========================
-Version: 2.0
-Released: March, 2004
+Version: 2.1
 
 Brought to you by Guardian Soft
 Web Site: http://www.firebell.org/guardiansoft
@@ -23,6 +22,11 @@ Table Of Contents
 
 ==========================================================================
 1.0 - Changes
+
+<< 2.1 - November 10, 2016 >>
+
+- Removed dependency on 8.3 filenames in theme files so that the game works
+  on modern systems that doesn't enable this feature.
 
 << 2.0 - March 9, 2004 >>
 
