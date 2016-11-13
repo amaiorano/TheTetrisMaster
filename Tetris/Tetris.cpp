@@ -223,6 +223,11 @@ void TheTetrisMaster::ProcessInput(const KeyboardMgr& rKeyboardMgr)
 	{
 		m_bBlockWasPlaced = pMap->MoveCurrBlockDown();
 	}
+
+	if ( rKeyboardMgr[VK_UP].Pressed() )
+	{
+		while (!pMap->MoveCurrBlockDown()) {}
+	}
 }
 
 bool TheTetrisMaster::RenderFrame(IRenderer& renderer)
