@@ -35,8 +35,8 @@ void TMMap::Reset()
 
 	m_gameOver = false;
 
-	m_currBlock = m_blockFactory.GetRandomBlock();
-	m_nextBlock = m_blockFactory.GetRandomBlock();
+	m_currBlock = m_blockFactory.GetNextRandomBlock();
+	m_nextBlock = m_blockFactory.GetNextRandomBlock();
 
 	m_totalLines = 0;
 	m_score = 0;
@@ -149,7 +149,7 @@ bool TMMap::MoveCurrBlockDown()
 	if ( m_currBlock.MoveDown() ) // Returns true if block was placed
 	{
 		m_currBlock = m_nextBlock;
-		m_nextBlock = m_blockFactory.GetRandomBlock();
+		m_nextBlock = m_blockFactory.GetNextRandomBlock();
 		m_freeFalls = 0; // Reset free fall counter for new block
 
 		// Does this new block overlap any blocks already on the map?
