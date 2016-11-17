@@ -10,7 +10,6 @@ bool TheTetrisMaster::Initialize()
 {
 	m_bNewGamePending = true;
 	m_bGameOver = false;
-	m_bBlockWasPlaced = false;
 
 	// Load up game config
 	m_gameConfig.AddVar("fullscreen", "false");
@@ -165,7 +164,7 @@ void TheTetrisMaster::ProcessInput(const KeyboardMgr& rKeyboardMgr)
 	// According to tetris spec, at max level 9, it drops at 0.05 second
 	// intervals (=50 ms)
 	const float fMoveDownMS = 50;
-	const float fMoveDownAfterBlockPlacementsMS = fMoveDownMS * 10;
+	const float fMoveDownAfterBlockPlacementsMS = PostBlockPlacementDelayMS;
 
 	const float fMoveHorzMS = 80;
 	const float fFirstHorzMS = 300;
@@ -218,10 +217,10 @@ void TheTetrisMaster::ProcessInput(const KeyboardMgr& rKeyboardMgr)
 	// For moving blocks down, we want the delay to be longer when a block is just placed so that
 	// the next piece doesn't start dropping at full speed as soon as it's spawned, giving the player
 	// a chance to optionally let go of the down button and line up the piece.
-	float fActualMoveDownMS = m_bBlockWasPlaced? fMoveDownAfterBlockPlacementsMS : fMoveDownMS;
+	float fActualMoveDownMS = pMap->BlockPlacedSinceLastMoveDown() ? fMoveDownAfterBlockPlacementsMS : fMoveDownMS;
 	if ( rKeyboardMgr[VK_DOWN].Down(fActualMoveDownMS, fDeltaTimeMS, bDownTimeElapsed) && bDownTimeElapsed )
 	{
-		m_bBlockWasPlaced = pMap->MoveCurrBlockDown();
+		pMap->MoveCurrBlockDown();
 	}
 
 	if ( rKeyboardMgr[VK_UP].Pressed() )

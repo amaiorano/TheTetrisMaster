@@ -11,6 +11,8 @@
 
 class TMScreen; // Forward declaration for friendship
 
+const double PostBlockPlacementDelayMS = 500;
+
 // Represents the map on which the blocks move
 class TMMap  
 {
@@ -29,6 +31,7 @@ class TMMap
 		inline void RotateCurrBlockLeft();	// Rotates current block left
 		inline void RotateCurrBlockRight();	// Rotates current block right
 
+		bool BlockPlacedSinceLastMoveDown() { return m_bBlockPlacedSinceLastMoveDown; }
 		inline void IncrementScore(long val); // Adds 'val' to the internal score
 
 		inline bool IsGameOver();		// Returns true if the game is over
@@ -91,6 +94,7 @@ class TMMap
 		UCHAR m_linesToRemove[4];		// Max lines we can ever remove are 4
 		UCHAR m_numLinesToRemove;		// Number of lines to remove (use with m_lines[])
 
+		bool m_bBlockPlacedSinceLastMoveDown = false;
 		bool m_gameOver;
 
 		int m_totalLines;				// Number of lines user has made so far

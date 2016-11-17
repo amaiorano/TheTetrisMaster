@@ -50,7 +50,15 @@ void TMMap::Reset()
 }
 
 bool TMMap::DoIteration()
-{	
+{
+	if (m_bBlockPlacedSinceLastMoveDown)
+	{
+		if (m_dropDelayTimer.GetElapsedTimeMS() < PostBlockPlacementDelayMS)
+			return true;
+		m_bBlockPlacedSinceLastMoveDown = false;
+		m_dropDelayTimer.StartTimer();
+	}
+
 	// If elapsed time has passed current drop delay, move
 	// the block down
 	if ( m_dropDelayTimer.GetElapsedTimeMS() >= m_iterDropDelayMS )
@@ -169,10 +177,13 @@ bool TMMap::MoveCurrBlockDown()
 		while ( m_dropDelayTimer.GetElapsedTimeMS() <= m_iterDropDelayMS ) {}
 		m_dropDelayTimer.StartTimer();
 #endif
-		return true;
+		m_bBlockPlacedSinceLastMoveDown = true;
 	}
-
-	return false;
+	else
+	{
+		m_bBlockPlacedSinceLastMoveDown = false;
+	}
+	return m_bBlockPlacedSinceLastMoveDown;
 }
 
 bool TMMap::CheckForLines(char startRow, UCHAR size)
