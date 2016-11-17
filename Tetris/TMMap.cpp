@@ -10,7 +10,8 @@ float CalculateDropDelayMS(float actualLevel)
 {
 	// From spec: Iteration_Delay = ((10.0 - Actual_Level) / 20.0) seconds
 	// So Iteration_Delay = 50.0(10.0 - Actual_Level) milliseconds
-	return 50.0f * (10.0f - actualLevel);
+	const float fudgeFactor = 1.5;
+	return 50.0f * (10.0f - actualLevel) * fudgeFactor;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -43,7 +44,7 @@ void TMMap::Reset()
 	m_currLevel = 0;
 	m_freeFalls = 0;
 
-	m_iterDropDelayMS = m_iterDropDelayMS = CalculateDropDelayMS(0); // Level 0
+	m_iterDropDelayMS = CalculateDropDelayMS(0); // Level 0
 
 	m_dropDelayTimer.StartTimer(); // Starts/Resets the timer
 }
@@ -52,7 +53,7 @@ bool TMMap::DoIteration()
 {	
 	// If elapsed time has passed current drop delay, move
 	// the block down
-	if ( m_dropDelayTimer.GetElapsedTimeMS() > m_iterDropDelayMS )
+	if ( m_dropDelayTimer.GetElapsedTimeMS() >= m_iterDropDelayMS )
 	{		
 		++m_freeFalls; // Block just fell freely
 
