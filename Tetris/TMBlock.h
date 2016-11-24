@@ -29,13 +29,17 @@ class TMBlock
 						char r3[4] = "0000",
 						char r4[4] = "0000" );
 
-		void Draw(int x=ON_MAP, int y=ON_MAP);	// Draws the block, default position is on the map
-		void DrawSquare(int x, int y);			// Draws a square at (x,y) on the screen		
+		
+		void Draw(int x=ON_MAP, int y=ON_MAP, float fAlpha = 1.0f);		// Draws the block, default position is on the map
+
+		void DrawSquare(int x, int y, float fAlpha = 1.0f);				// Draws a square at (x,y) on the screen
 
 		// Functions to move the block on the map
 		bool MoveDown();	// Returns true if the block has been placed on the map
 		void MoveLeft();
 		void MoveRight();
+
+		bool FakeMoveDown(); // Like MoveDown, but doesn't place the block onto the map, nor affect scoring (for block shadow)
 		
 		void RotateLeft();
 		void RotateRight();

@@ -100,8 +100,14 @@ void TMMap::Draw()
 		}
 	}	
 
+	// Draw drop shadow
+	TMBlock shadowBlock = m_currBlock;
+	while (!shadowBlock.FakeMoveDown()) {}
+	const float fAlpha = 0.35f; // TODO: theme variable
+	shadowBlock.Draw(ON_MAP, ON_MAP, fAlpha);
+
 	// Draw the current block
-	m_currBlock.Draw();	
+	m_currBlock.Draw();
 }
 
 bool TMMap::BlockCanFit(char shape[4][4], UCHAR size, char mapRow, char mapCol)
