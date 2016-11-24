@@ -10,7 +10,8 @@ float CalculateDropDelayMS(float actualLevel)
 {
 	// From spec: Iteration_Delay = ((10.0 - Actual_Level) / 20.0) seconds
 	// So Iteration_Delay = 50.0(10.0 - Actual_Level) milliseconds
-	return 50.0f * (10.0f - actualLevel);
+	const float fudgeFactor = 1.5;
+	return 50.0f * (10.0f - actualLevel) * fudgeFactor;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -35,24 +36,32 @@ void TMMap::Reset()
 
 	m_gameOver = false;
 
-	m_currBlock = m_blockFactory.GetRandomBlock();
-	m_nextBlock = m_blockFactory.GetRandomBlock();
+	m_currBlock = m_blockFactory.GetNextRandomBlock();
+	m_nextBlock = m_blockFactory.GetNextRandomBlock();
 
 	m_totalLines = 0;
 	m_score = 0;
 	m_currLevel = 0;
 	m_freeFalls = 0;
 
-	m_iterDropDelayMS = m_iterDropDelayMS = CalculateDropDelayMS(0); // Level 0
+	m_iterDropDelayMS = CalculateDropDelayMS(0); // Level 0
 
 	m_dropDelayTimer.StartTimer(); // Starts/Resets the timer
 }
 
 bool TMMap::DoIteration()
-{	
+{
+	if (m_bBlockPlacedSinceLastMoveDown)
+	{
+		if (m_dropDelayTimer.GetElapsedTimeMS() < PostBlockPlacementDelayMS)
+			return true;
+		m_bBlockPlacedSinceLastMoveDown = false;
+		m_dropDelayTimer.StartTimer();
+	}
+
 	// If elapsed time has passed current drop delay, move
 	// the block down
-	if ( m_dropDelayTimer.GetElapsedTimeMS() > m_iterDropDelayMS )
+	if ( m_dropDelayTimer.GetElapsedTimeMS() >= m_iterDropDelayMS )
 	{		
 		++m_freeFalls; // Block just fell freely
 
@@ -91,8 +100,14 @@ void TMMap::Draw()
 		}
 	}	
 
+	// Draw drop shadow
+	TMBlock shadowBlock = m_currBlock;
+	while (!shadowBlock.FakeMoveDown()) {}
+	const float fAlpha = 0.35f; // TODO: theme variable
+	shadowBlock.Draw(ON_MAP, ON_MAP, fAlpha);
+
 	// Draw the current block
-	m_currBlock.Draw();	
+	m_currBlock.Draw();
 }
 
 bool TMMap::BlockCanFit(char shape[4][4], UCHAR size, char mapRow, char mapCol)
@@ -149,7 +164,7 @@ bool TMMap::MoveCurrBlockDown()
 	if ( m_currBlock.MoveDown() ) // Returns true if block was placed
 	{
 		m_currBlock = m_nextBlock;
-		m_nextBlock = m_blockFactory.GetRandomBlock();
+		m_nextBlock = m_blockFactory.GetNextRandomBlock();
 		m_freeFalls = 0; // Reset free fall counter for new block
 
 		// Does this new block overlap any blocks already on the map?
@@ -168,10 +183,13 @@ bool TMMap::MoveCurrBlockDown()
 		while ( m_dropDelayTimer.GetElapsedTimeMS() <= m_iterDropDelayMS ) {}
 		m_dropDelayTimer.StartTimer();
 #endif
-		return true;
+		m_bBlockPlacedSinceLastMoveDown = true;
 	}
-
-	return false;
+	else
+	{
+		m_bBlockPlacedSinceLastMoveDown = false;
+	}
+	return m_bBlockPlacedSinceLastMoveDown;
 }
 
 bool TMMap::CheckForLines(char startRow, UCHAR size)

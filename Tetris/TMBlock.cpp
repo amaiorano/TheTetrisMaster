@@ -40,7 +40,7 @@ void TMBlock::SetShape(	char r1[4] /*= "0000"*/,
 	}
 }
 
-void TMBlock::Draw(int x/*=ON_MAP*/, int y/*=ON_MAP*/)
+void TMBlock::Draw(int x/*=ON_MAP*/, int y/*=ON_MAP*/, float fAlpha /*= 1.0f*/)
 {
 	int startX, startY;
 
@@ -67,7 +67,7 @@ void TMBlock::Draw(int x/*=ON_MAP*/, int y/*=ON_MAP*/)
 		for (char col=0; col<m_size; ++col)
 		{
 			if (m_shape[row][col]) // Do we draw this square?
-				DrawSquare(xPos, yPos);
+				DrawSquare(xPos, yPos, fAlpha);
 
 			xPos+=BLOCK_SQUARE_SIZE;
 		}
@@ -75,10 +75,10 @@ void TMBlock::Draw(int x/*=ON_MAP*/, int y/*=ON_MAP*/)
 
 }
 
-void TMBlock::DrawSquare(int x, int y)
+void TMBlock::DrawSquare(int x, int y, float fAlpha)
 {	
 	Texture& rBlockTex = GetGameEngine()->GetBlockTexture(GetId()-1);
-
+	rBlockTex.SetAlphaBlending(true, fAlpha);
 	rBlockTex.Pos().Set((float)x, (float)y);
 	rBlockTex.RenderQuad();
 }
@@ -115,6 +115,22 @@ bool TMBlock::MoveDown()
 	}
 
 	return false; // Not placed by default
+}
+
+bool TMBlock::FakeMoveDown()
+{
+	// Ask the map if this block can move down
+	if (m_pMap->BlockCanFit(m_shape, m_size, m_mapRow + 1, m_mapCol))
+	{
+		++m_mapRow; // Increment the block's column position
+	}
+	else // It doesn't fit, so place it there
+	{
+		return true;
+	}
+
+	return false; // Not placed by default
+
 }
 
 void TMBlock::MoveLeft()

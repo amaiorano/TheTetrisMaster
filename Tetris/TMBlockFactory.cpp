@@ -4,6 +4,7 @@
 
 #include "Defs.h"
 #include "TMBlockFactory.h"
+#include <array>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -77,9 +78,18 @@ TMBlockFactory::~TMBlockFactory()
 
 }
 
-TMBlock TMBlockFactory::GetRandomBlock()
-{	
-	return m_allBlocksArray[rand()%7];
+TMBlock TMBlockFactory::GetNextRandomBlock()
+{
+	if (m_nextBlockIndices.empty())
+	{
+		std::array<int, 7> indices = { 0, 1, 2, 3, 4, 5, 6 };
+		std::random_shuffle(std::begin(indices), std::end(indices));
+		std::for_each(begin(indices), end(indices), [this] (int index) { m_nextBlockIndices.push(index); });
+	}
+
+	const int nextBlockIndex = m_nextBlockIndices.top();
+	m_nextBlockIndices.pop();
+	return m_allBlocksArray[nextBlockIndex];
 }
 
 TMBlock* TMBlockFactory::GetBlockWithId(int id)

@@ -72,7 +72,6 @@ private:
 
 	bool m_bNewGamePending;
 	bool m_bGameOver;
-	bool m_bBlockWasPlaced;
 };
 
 #endif _THE_TETRIS_MASTER_H_
