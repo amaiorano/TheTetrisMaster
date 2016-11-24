@@ -4,7 +4,7 @@
 #include "TMTheme.h"
 #include "TMScreen.h"
 
-const char* VERSION = "ver 2.1";
+const char* VERSION = "ver 2.2";
 
 bool TheTetrisMaster::Initialize()
 {

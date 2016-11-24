@@ -1,5 +1,5 @@
 =========================<< The Tetris Master >>==========================
-Version: 2.1
+Version: 2.2
 
 Brought to you by Guardian Soft
 Web Site: http://www.firebell.org/guardiansoft
@@ -22,6 +22,20 @@ Table Of Contents
 
 ==========================================================================
 1.0 - Changes
+
+<< 2.2 November 23, 2016 >>
+
+- Add drop shadow on blocks
+- Introduce fixed delay before new block drops down right after block
+  placement
+- Made the drop delay intervals a little longer because it was much too
+  fast
+- Change next block randomization to follow more standard "random shuffle
+  of 7 pieces" sequences
+- Make pressing up immediately place the current block in straight line
+  downwards
+- Introduce extra delay after initial move left/right of block to make it
+  easier to control placement of pieces
 
 << 2.1 - November 10, 2016 >>
 
